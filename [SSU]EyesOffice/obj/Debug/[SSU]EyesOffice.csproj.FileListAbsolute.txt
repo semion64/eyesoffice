@@ -1,0 +1,100 @@
+C:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\[SSU]EyesOffice.exe.config
+C:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\[SSU]EyesOffice.exe
+C:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\[SSU]EyesOffice.pdb
+C:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\[SSU]EyesOffice.csprojResolveAssemblyReference.cache
+C:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.FormMain.resources
+C:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.Properties.Resources.resources
+C:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\[SSU]EyesOffice.csproj.GenerateResource.Cache
+C:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\[SSU]EyesOffice.exe
+C:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\[SSU]EyesOffice.pdb
+C:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.Forms.FormAddPatient.resources
+c:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.Forms.FormEditPatient.resources
+c:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.Forms.FormDetect.resources
+c:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\Emgu.CV.dll
+c:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\Emgu.CV.UI.dll
+c:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\Emgu.Util.dll
+c:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\zlib.net.dll
+c:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\ZedGraph.dll
+c:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\ZedGraph.xml
+c:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\zh-CN\Emgu.CV.UI.resources.dll
+c:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\zh-CN\ZedGraph.resources.dll
+c:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.Forms.PlotXY.resources
+G:\Магистратура\Окулограф\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\[SSU]EyesOffice.exe.config
+G:\Магистратура\Окулограф\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\[SSU]EyesOffice.exe
+G:\Магистратура\Окулограф\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\[SSU]EyesOffice.pdb
+G:\Магистратура\Окулограф\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\[SSU]EyesOffice.exe
+G:\Магистратура\Окулограф\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\[SSU]EyesOffice.pdb
+G:\Магистратура\Окулограф\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\ZedGraph.dll
+G:\Магистратура\Окулограф\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\ZedGraph.xml
+G:\Магистратура\Окулограф\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\zh-CN\Emgu.CV.UI.resources.dll
+G:\Магистратура\Окулограф\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\zh-CN\ZedGraph.resources.dll
+G:\Магистратура\Окулограф\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\[SSU]EyesOffice.csprojResolveAssemblyReference.cache
+G:\Магистратура\Окулограф\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.FormMain.resources
+G:\Магистратура\Окулограф\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.Forms.FormAddPatient.resources
+G:\Магистратура\Окулограф\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.Forms.FormDetect.resources
+G:\Магистратура\Окулограф\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.Forms.FormEditPatient.resources
+G:\Магистратура\Окулограф\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.Forms.PlotXY.resources
+G:\Магистратура\Окулограф\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.Properties.Resources.resources
+G:\Магистратура\Окулограф\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\[SSU]EyesOffice.csproj.GenerateResource.Cache
+C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\[SSU]EyesOffice.exe.config
+C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\[SSU]EyesOffice.exe
+C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\[SSU]EyesOffice.pdb
+C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\[SSU]EyesOffice.exe
+C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\[SSU]EyesOffice.pdb
+C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\ZedGraph.dll
+C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\ZedGraph.xml
+C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\zh-CN\Emgu.CV.UI.resources.dll
+C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\zh-CN\ZedGraph.resources.dll
+C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\[SSU]EyesOffice.csprojResolveAssemblyReference.cache
+C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.FormMain.resources
+C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.Forms.FormAddPatient.resources
+C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.Forms.FormDetect.resources
+C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.Forms.FormEditPatient.resources
+C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.Forms.PlotXY.resources
+C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.Properties.Resources.resources
+C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\[SSU]EyesOffice.csproj.GenerateResource.Cache
+C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\Emgu.CV.dll
+C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\Emgu.CV.UI.dll
+C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\Emgu.Util.dll
+C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\zlib.net.dll
+C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\[SSU]EyesOffice.exe.config
+C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\[SSU]EyesOffice.exe
+C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\[SSU]EyesOffice.pdb
+C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\[SSU]EyesOffice.exe
+C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\[SSU]EyesOffice.pdb
+C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\Emgu.CV.dll
+C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\Emgu.CV.UI.dll
+C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\Emgu.Util.dll
+C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\ZedGraph.dll
+C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\zlib.net.dll
+C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\ZedGraph.xml
+C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\zh-CN\Emgu.CV.UI.resources.dll
+C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\zh-CN\ZedGraph.resources.dll
+C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\[SSU]EyesOffice.csprojResolveAssemblyReference.cache
+C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.FormMain.resources
+C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.Forms.FormAddPatient.resources
+C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.Forms.FormDetect.resources
+C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.Forms.FormEditPatient.resources
+C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.Forms.PlotXY.resources
+C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.Properties.Resources.resources
+C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\[SSU]EyesOffice.csproj.GenerateResource.Cache
+C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\[SSU]EyesOffice.csproj.ResolveComReference.cache
+C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\[SSU]EyesOffice.exe.config
+C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\[SSU]EyesOffice.exe
+C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\[SSU]EyesOffice.pdb
+C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\ZedGraph.xml
+C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\zh-CN\Emgu.CV.UI.resources.dll
+C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\bin\Debug\zh-CN\ZedGraph.resources.dll
+C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\[SSU]EyesOffice.csprojAssemblyReference.cache
+C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\[SSU]EyesOffice.csproj.ResolveComReference.cache
+C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.FormMain.resources
+C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.Forms.FormAddPatient.resources
+C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.Forms.FormDetect.resources
+C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.Forms.FormEditPatient.resources
+C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.Forms.PlotXY.resources
+C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\_SSU_EyesOffice.Properties.Resources.resources
+C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\[SSU]EyesOffice.csproj.GenerateResource.cache
+C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\[SSU]EyesOffice.csproj.CoreCompileInputs.cache
+C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\[SSU]EyesOffice.csproj.CopyComplete
+C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\[SSU]EyesOffice.exe
+C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\obj\Debug\[SSU]EyesOffice.pdb

@@ -1,0 +1,1210 @@
+[20.03.2016 18:51:33]: btnDeleteRecord_Click(object sender, EventArgs e) recordID: 116
+###
+Record.DeleteRecord null query
+###
+System.Exception: Record.DeleteRecord null query
+   в _SSU_EyesOffice.Logic.Record.Delete() в c:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Record.cs:строка 157
+   в _SSU_EyesOffice.FormMain.btnDeleteRecord_Click(Object sender, EventArgs e) в c:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\Forms\Form1.cs:строка 493
+
+############################################################################
+--------------
+############################################################################
+
+[20.03.2016 18:51:37]: btnDeleteRecord_Click(object sender, EventArgs e) recordID: 116
+###
+Record.DeleteRecord null query
+###
+System.Exception: Record.DeleteRecord null query
+   в _SSU_EyesOffice.Logic.Record.Delete() в c:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Record.cs:строка 157
+   в _SSU_EyesOffice.FormMain.btnDeleteRecord_Click(Object sender, EventArgs e) в c:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\Forms\Form1.cs:строка 493
+
+############################################################################
+--------------
+############################################################################
+
+[20.03.2016 18:51:46]: btnDeleteRecord_Click(object sender, EventArgs e) recordID: 101
+###
+Record.DeleteRecord null query
+###
+System.Exception: Record.DeleteRecord null query
+   в _SSU_EyesOffice.Logic.Record.Delete() в c:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Record.cs:строка 157
+   в _SSU_EyesOffice.FormMain.btnDeleteRecord_Click(Object sender, EventArgs e) в c:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\Forms\Form1.cs:строка 493
+
+############################################################################
+--------------
+############################################################################
+
+[20.03.2016 18:54:14]: btnDeleteRecord_Click(object sender, EventArgs e) recordID: 102
+###
+Record.DeleteRecord null query
+###
+System.Exception: Record.DeleteRecord null query
+   в _SSU_EyesOffice.Logic.Record.Delete() в c:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Record.cs:строка 157
+   в _SSU_EyesOffice.FormMain.btnDeleteRecord_Click(Object sender, EventArgs e) в c:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\Forms\Form1.cs:строка 493
+
+############################################################################
+--------------
+############################################################################
+
+[21.03.2016 11:57:00]:  btnAdd_Click(object sender, EventArgs e) Logic.Patient.AddToDB(лгргл, , False, 21.03.2016 0:00:00, )
+###
+Поле 'patients.c_second_name' не допускает ввод пустых строк.
+###
+System.Data.OleDb.OleDbException (0x80004005): Поле 'patients.c_second_name' не допускает ввод пустых строк.
+   в System.Data.OleDb.OleDbCommand.ExecuteCommandTextErrorHandling(OleDbHResult hr)
+   в System.Data.OleDb.OleDbCommand.ExecuteCommandTextForSingleResult(tagDBPARAMS dbParams, Object& executeResult)
+   в System.Data.OleDb.OleDbCommand.ExecuteCommandText(Object& executeResult)
+   в System.Data.OleDb.OleDbCommand.ExecuteCommand(CommandBehavior behavior, Object& executeResult)
+   в System.Data.OleDb.OleDbCommand.ExecuteReaderInternal(CommandBehavior behavior, String method)
+   в System.Data.OleDb.OleDbCommand.ExecuteNonQuery()
+   в _SSU_EyesOffice.Logic.Patient.AddToDB(String secondName, String name, Boolean isFemale, DateTime birthDay, String comments) в c:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Patient.cs:строка 221
+   в _SSU_EyesOffice.Forms.FormAddPatient.btnAdd_Click(Object sender, EventArgs e) в c:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormAddPatient.cs:строка 23
+
+############################################################################
+--------------
+############################################################################
+
+[21.03.2016 11:57:08]:  btnAdd_Click(object sender, EventArgs e) Logic.Patient.AddToDB(лгргл, , False, 21.03.2016 0:00:00, )
+###
+Поле 'patients.c_second_name' не допускает ввод пустых строк.
+###
+System.Data.OleDb.OleDbException (0x80004005): Поле 'patients.c_second_name' не допускает ввод пустых строк.
+   в System.Data.OleDb.OleDbCommand.ExecuteCommandTextErrorHandling(OleDbHResult hr)
+   в System.Data.OleDb.OleDbCommand.ExecuteCommandTextForSingleResult(tagDBPARAMS dbParams, Object& executeResult)
+   в System.Data.OleDb.OleDbCommand.ExecuteCommandText(Object& executeResult)
+   в System.Data.OleDb.OleDbCommand.ExecuteCommand(CommandBehavior behavior, Object& executeResult)
+   в System.Data.OleDb.OleDbCommand.ExecuteReaderInternal(CommandBehavior behavior, String method)
+   в System.Data.OleDb.OleDbCommand.ExecuteNonQuery()
+   в _SSU_EyesOffice.Logic.Patient.AddToDB(String secondName, String name, Boolean isFemale, DateTime birthDay, String comments) в c:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Patient.cs:строка 221
+   в _SSU_EyesOffice.Forms.FormAddPatient.btnAdd_Click(Object sender, EventArgs e) в c:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormAddPatient.cs:строка 23
+
+############################################################################
+--------------
+############################################################################
+
+[21.03.2016 11:57:18]:  btnAdd_Click(object sender, EventArgs e) Logic.Patient.AddToDB(вапвар, , False, 21.03.2016 0:00:00, )
+###
+Поле 'patients.c_second_name' не допускает ввод пустых строк.
+###
+System.Data.OleDb.OleDbException (0x80004005): Поле 'patients.c_second_name' не допускает ввод пустых строк.
+   в System.Data.OleDb.OleDbCommand.ExecuteCommandTextErrorHandling(OleDbHResult hr)
+   в System.Data.OleDb.OleDbCommand.ExecuteCommandTextForSingleResult(tagDBPARAMS dbParams, Object& executeResult)
+   в System.Data.OleDb.OleDbCommand.ExecuteCommandText(Object& executeResult)
+   в System.Data.OleDb.OleDbCommand.ExecuteCommand(CommandBehavior behavior, Object& executeResult)
+   в System.Data.OleDb.OleDbCommand.ExecuteReaderInternal(CommandBehavior behavior, String method)
+   в System.Data.OleDb.OleDbCommand.ExecuteNonQuery()
+   в _SSU_EyesOffice.Logic.Patient.AddToDB(String secondName, String name, Boolean isFemale, DateTime birthDay, String comments) в c:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Patient.cs:строка 221
+   в _SSU_EyesOffice.Forms.FormAddPatient.btnAdd_Click(Object sender, EventArgs e) в c:\Study\СГУ\Компьютерные технологии\Окулограф\csharp\solutions\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormAddPatient.cs:строка 23
+
+############################################################################
+--------------
+############################################################################
+
+[30.03.2016 20:32:16]: dataGridSelection_change setCapture for file: C:\Users\4pc\Desktop\шарик\новые измерения\Цыганова.avi
+###
+Инициализатор типа "Emgu.CV.CvInvoke" выдал исключение.
+###
+System.TypeInitializationException: Инициализатор типа "Emgu.CV.CvInvoke" выдал исключение. ---> System.DllNotFoundException: Не удается загрузить DLL "cxcore200.dll": Не найден указанный модуль. (Исключение из HRESULT: 0x8007007E)
+   в Emgu.CV.CvInvoke.cvRedirectError(CvErrorCallback errorHandler, IntPtr userdata, IntPtr prevUserdata)
+   в Emgu.CV.CvInvoke..cctor()
+   --- Конец трассировки внутреннего стека исключений ---
+   в Emgu.CV.CvInvoke.cvReleaseCapture(IntPtr& capture)
+   в _SSU_EyesOffice.Logic.Grabber.ReleaseCapture() в C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 215
+   в _SSU_EyesOffice.FormMain.dataGrid_SelectionChanged(Object sender, EventArgs e) в C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\Forms\Form1.cs:строка 234
+
+############################################################################
+--------------
+############################################################################
+
+[30.03.2016 20:34:07]: dataGridSelection_change setCapture for file: C:\Users\4pc\Desktop\шарик\новые измерения\Цыганова.avi
+###
+Couldn't create capture: file C:\Users\4pc\Desktop\шарик\новые измерения\Цыганова.avi was not found
+###
+System.IO.FileNotFoundException: Couldn't create capture: file C:\Users\4pc\Desktop\шарик\новые измерения\Цыганова.avi was not found
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 105
+   в _SSU_EyesOffice.FormMain.dataGrid_SelectionChanged(Object sender, EventArgs e) в C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\Forms\Form1.cs:строка 235
+
+############################################################################
+--------------
+############################################################################
+
+[30.03.2016 20:34:10]: dataGridSelection_change setCapture for file: C:\Users\4pc\Desktop\шарик\новые измерения\Цыганова.avi
+###
+Couldn't create capture: file C:\Users\4pc\Desktop\шарик\новые измерения\Цыганова.avi was not found
+###
+System.IO.FileNotFoundException: Couldn't create capture: file C:\Users\4pc\Desktop\шарик\новые измерения\Цыганова.avi was not found
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 105
+   в _SSU_EyesOffice.FormMain.dataGrid_SelectionChanged(Object sender, EventArgs e) в C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\Forms\Form1.cs:строка 235
+
+############################################################################
+--------------
+############################################################################
+
+[30.03.2016 20:45:00]: FormDetect(); Couldn't set capture for file C:\Users\КГБ\Desktop\file.avi
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[30.03.2016 20:45:09]: FormDetect(); Couldn't set capture for file C:\Users\КГБ\Desktop\file.avi
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[30.03.2016 20:46:11]: FormDetect(); Couldn't set capture for file C:\Users\КГБ\Desktop\file.avi
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[30.03.2016 20:53:35]: FormDetect(); Couldn't set capture for file C:\Users\КГБ\Desktop\file.avi
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[30.03.2016 20:53:44]: FormDetect(); Couldn't set capture for file C:\Users\КГБ\Desktop\file.avi
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[30.03.2016 20:53:56]: FormDetect(); Couldn't set capture for file C:\Users\КГБ\Desktop\file.avi
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[30.03.2016 20:56:48]: FormDetect(); Couldn't set capture for file C:\EyesOffice2016\file.avi
+###
+Ссылка на объект не указывает на экземпляр объекта.
+###
+System.NullReferenceException: Ссылка на объект не указывает на экземпляр объекта.
+   в _SSU_EyesOffice.Logic.Grabber.GrabImage() в C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 160
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 124
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[30.03.2016 21:01:14]: FormDetect(); Couldn't set capture for file C:\EyesOffice2016\file.avi
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex)
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId)
+
+############################################################################
+--------------
+############################################################################
+
+[30.03.2016 21:01:43]: FormDetect(); Couldn't set capture for file C:\EyesOffice2016\file.avi
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[30.03.2016 21:02:42]: FormDetect(); Couldn't set capture for file E:\00002 (1).mp4
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[30.03.2016 21:10:35]: FormDetect(); Couldn't set capture for file E:\00002 (1).mp4
+###
+Couldn't create capture: file E:\00002 (1).mp4 was not found
+###
+System.IO.FileNotFoundException: Couldn't create capture: file E:\00002 (1).mp4 was not found
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 105
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\Users\КГБ\Desktop\Окулограф1\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[30.03.2016 22:11:33]:  btnAdd_Click(object sender, EventArgs e) Logic.Patient.AddToDB(xcvbxcvb, , False, 30.03.2016 0:00:00, )
+###
+Поле 'patients.c_second_name' не допускает ввод пустых строк.
+###
+System.Data.OleDb.OleDbException (0x80004005): Поле 'patients.c_second_name' не допускает ввод пустых строк.
+   в System.Data.OleDb.OleDbCommand.ExecuteCommandTextErrorHandling(OleDbHResult hr)
+   в System.Data.OleDb.OleDbCommand.ExecuteCommandTextForSingleResult(tagDBPARAMS dbParams, Object& executeResult)
+   в System.Data.OleDb.OleDbCommand.ExecuteCommandText(Object& executeResult)
+   в System.Data.OleDb.OleDbCommand.ExecuteCommand(CommandBehavior behavior, Object& executeResult)
+   в System.Data.OleDb.OleDbCommand.ExecuteReaderInternal(CommandBehavior behavior, String method)
+   в System.Data.OleDb.OleDbCommand.ExecuteNonQuery()
+   в _SSU_EyesOffice.Logic.Patient.AddToDB(String secondName, String name, Boolean isFemale, DateTime birthDay, String comments) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Patient.cs:строка 221
+   в _SSU_EyesOffice.Forms.FormAddPatient.btnAdd_Click(Object sender, EventArgs e) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormAddPatient.cs:строка 24
+
+############################################################################
+--------------
+############################################################################
+
+[30.03.2016 22:11:39]:  btnAdd_Click(object sender, EventArgs e) Logic.Patient.AddToDB(xcvbxcvb, , False, 30.03.2016 0:00:00, )
+###
+Поле 'patients.c_second_name' не допускает ввод пустых строк.
+###
+System.Data.OleDb.OleDbException (0x80004005): Поле 'patients.c_second_name' не допускает ввод пустых строк.
+   в System.Data.OleDb.OleDbCommand.ExecuteCommandTextErrorHandling(OleDbHResult hr)
+   в System.Data.OleDb.OleDbCommand.ExecuteCommandTextForSingleResult(tagDBPARAMS dbParams, Object& executeResult)
+   в System.Data.OleDb.OleDbCommand.ExecuteCommandText(Object& executeResult)
+   в System.Data.OleDb.OleDbCommand.ExecuteCommand(CommandBehavior behavior, Object& executeResult)
+   в System.Data.OleDb.OleDbCommand.ExecuteReaderInternal(CommandBehavior behavior, String method)
+   в System.Data.OleDb.OleDbCommand.ExecuteNonQuery()
+   в _SSU_EyesOffice.Logic.Patient.AddToDB(String secondName, String name, Boolean isFemale, DateTime birthDay, String comments) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Patient.cs:строка 221
+   в _SSU_EyesOffice.Forms.FormAddPatient.btnAdd_Click(Object sender, EventArgs e) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormAddPatient.cs:строка 24
+
+############################################################################
+--------------
+############################################################################
+
+[30.03.2016 22:12:41]:  btnAdd_Click(object sender, EventArgs e) Logic.Patient.AddToDB(xcvbxcvb, , False, 30.03.2016 0:00:00, )
+###
+Поле 'patients.c_second_name' не допускает ввод пустых строк.
+###
+System.Data.OleDb.OleDbException (0x80004005): Поле 'patients.c_second_name' не допускает ввод пустых строк.
+   в System.Data.OleDb.OleDbCommand.ExecuteCommandTextErrorHandling(OleDbHResult hr)
+   в System.Data.OleDb.OleDbCommand.ExecuteCommandTextForSingleResult(tagDBPARAMS dbParams, Object& executeResult)
+   в System.Data.OleDb.OleDbCommand.ExecuteCommandText(Object& executeResult)
+   в System.Data.OleDb.OleDbCommand.ExecuteCommand(CommandBehavior behavior, Object& executeResult)
+   в System.Data.OleDb.OleDbCommand.ExecuteReaderInternal(CommandBehavior behavior, String method)
+   в System.Data.OleDb.OleDbCommand.ExecuteNonQuery()
+   в _SSU_EyesOffice.Logic.Patient.AddToDB(String secondName, String name, Boolean isFemale, DateTime birthDay, String comments) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Patient.cs:строка 221
+   в _SSU_EyesOffice.Forms.FormAddPatient.btnAdd_Click(Object sender, EventArgs e) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormAddPatient.cs:строка 24
+
+############################################################################
+--------------
+############################################################################
+
+[31.03.2016 19:30:22]: btnReport_Click(object sender, EventArgs e)
+###
+Ошибка команды
+###
+System.Runtime.InteropServices.COMException (0x800A1066): Ошибка команды
+   в Microsoft.Office.Interop.Word.Documents.Open(Object& FileName, Object& ConfirmConversions, Object& ReadOnly, Object& AddToRecentFiles, Object& PasswordDocument, Object& PasswordTemplate, Object& Revert, Object& WritePasswordDocument, Object& WritePasswordTemplate, Object& Format, Object& Encoding, Object& Visible, Object& OpenAndRepair, Object& DocumentDirection, Object& NoEncodingDialog, Object& XMLTransform)
+   в _SSU_EyesOffice.FormMain.btnReport_Click(Object sender, EventArgs e) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\Form1.cs:строка 795
+
+############################################################################
+--------------
+############################################################################
+
+[31.03.2016 19:38:07]: btnReport_Click(object sender, EventArgs e)
+###
+Неверно указано имя файла.
+Попробуйте выполнить следующие действия:
+* Убедитесь, что путь введен правильно.
+* Выберите нужный файл из списка файлов и папок.
+###
+System.Runtime.InteropServices.COMException (0x800A1420): Неверно указано имя файла.
+Попробуйте выполнить следующие действия:
+* Убедитесь, что путь введен правильно.
+* Выберите нужный файл из списка файлов и папок.
+   в Microsoft.Office.Interop.Word.InlineShapes.AddPicture(String FileName, Object& LinkToFile, Object& SaveWithDocument, Object& Range)
+   в _SSU_EyesOffice.FormMain.btnReport_Click(Object sender, EventArgs e) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\Form1.cs:строка 823
+
+############################################################################
+--------------
+############################################################################
+
+[31.03.2016 19:39:32]: btnReport_Click(object sender, EventArgs e)
+###
+Приложению Word не удалось сохранить данный файл, так как он используется другим процессом. (C:\Users\КГБ\Desktop\nk;.docx)
+###
+System.Runtime.InteropServices.COMException (0x800A14EC): Приложению Word не удалось сохранить данный файл, так как он используется другим процессом. (C:\Users\КГБ\Desktop\nk;.docx)
+   в Microsoft.Office.Interop.Word.DocumentClass.SaveAs2(Object& FileName, Object& FileFormat, Object& LockComments, Object& Password, Object& AddToRecentFiles, Object& WritePassword, Object& ReadOnlyRecommended, Object& EmbedTrueTypeFonts, Object& SaveNativePictureFormat, Object& SaveFormsData, Object& SaveAsAOCELetter, Object& Encoding, Object& InsertLineBreaks, Object& AllowSubstitutions, Object& LineEnding, Object& AddBiDiMarks, Object& CompatibilityMode)
+   в _SSU_EyesOffice.FormMain.btnReport_Click(Object sender, EventArgs e) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\Form1.cs:строка 819
+
+############################################################################
+--------------
+############################################################################
+
+[31.03.2016 19:48:55]: btnReport_Click(object sender, EventArgs e)
+###
+Запрашиваемый номер семейства не существует.
+###
+System.Runtime.InteropServices.COMException (0x800A1735): Запрашиваемый номер семейства не существует.
+   в Microsoft.Office.Interop.Word.InlineShapes.get_Item(Int32 Index)
+   в _SSU_EyesOffice.FormMain.btnReport_Click(Object sender, EventArgs e) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\Form1.cs:строка 824
+
+############################################################################
+--------------
+############################################################################
+
+[31.03.2016 21:38:04]: btnReport_Click(object sender, EventArgs e)
+###
+Запрашиваемый номер семейства не существует.
+###
+System.Runtime.InteropServices.COMException (0x800A1735): Запрашиваемый номер семейства не существует.
+   в Microsoft.Office.Interop.Word.InlineShapes.get_Item(Int32 Index)
+   в _SSU_EyesOffice.FormMain.btnReport_Click(Object sender, EventArgs e) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\Form1.cs:строка 837
+
+############################################################################
+--------------
+############################################################################
+
+[01.04.2016 11:23:59]: btnReport_Click(object sender, EventArgs e)
+###
+Недостаточно памяти.
+###
+System.OutOfMemoryException: Недостаточно памяти.
+   в System.Drawing.Bitmap.Clone(Rectangle rect, PixelFormat format)
+   в System.Windows.Forms.DataVisualization.Charting.ChartArea.PaintCursors(ChartGraphics graph, Boolean cursorOnly)
+   в System.Windows.Forms.DataVisualization.Charting.ChartPicture.Paint(Graphics graph, Boolean paintTopLevelElementOnly)
+   в System.Windows.Forms.DataVisualization.Charting.ChartImage.GetImage(Single resolution)
+   в System.Windows.Forms.DataVisualization.Charting.Chart.SaveImage(Stream imageStream, ChartImageFormat format)
+   в System.Windows.Forms.DataVisualization.Charting.Chart.SaveImage(String imageFileName, ChartImageFormat format)
+   в _SSU_EyesOffice.FormMain.SaveChartToFile(Chart chart, String file, List`1 record, Func`2 predicate, Single centerLeft, Single centerRight, Int32 width) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\Form1.cs:строка 889
+   в _SSU_EyesOffice.FormMain.btnReport_Click(Object sender, EventArgs e) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\Form1.cs:строка 844
+
+############################################################################
+--------------
+############################################################################
+
+[01.04.2016 11:24:31]: btnReport_Click(object sender, EventArgs e)
+###
+Недостаточно памяти.
+###
+System.OutOfMemoryException: Недостаточно памяти.
+   в System.Drawing.Bitmap.Clone(Rectangle rect, PixelFormat format)
+   в System.Windows.Forms.DataVisualization.Charting.ChartArea.PaintCursors(ChartGraphics graph, Boolean cursorOnly)
+   в System.Windows.Forms.DataVisualization.Charting.ChartPicture.Paint(Graphics graph, Boolean paintTopLevelElementOnly)
+   в System.Windows.Forms.DataVisualization.Charting.ChartImage.GetImage(Single resolution)
+   в System.Windows.Forms.DataVisualization.Charting.Chart.SaveImage(Stream imageStream, ChartImageFormat format)
+   в System.Windows.Forms.DataVisualization.Charting.Chart.SaveImage(String imageFileName, ChartImageFormat format)
+   в _SSU_EyesOffice.FormMain.SaveChartToFile(Chart chart, String file, List`1 record, Func`2 predicate, Single centerLeft, Single centerRight, Int32 width) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\Form1.cs:строка 889
+   в _SSU_EyesOffice.FormMain.btnReport_Click(Object sender, EventArgs e) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\Form1.cs:строка 844
+
+############################################################################
+--------------
+############################################################################
+
+[01.04.2016 11:53:57]: btnReport_Click(object sender, EventArgs e)
+###
+Недостаточно памяти.
+###
+System.OutOfMemoryException: Недостаточно памяти.
+   в System.Drawing.Bitmap.Clone(Rectangle rect, PixelFormat format)
+   в System.Windows.Forms.DataVisualization.Charting.ChartArea.PaintCursors(ChartGraphics graph, Boolean cursorOnly)
+   в System.Windows.Forms.DataVisualization.Charting.ChartPicture.Paint(Graphics graph, Boolean paintTopLevelElementOnly)
+   в System.Windows.Forms.DataVisualization.Charting.ChartImage.GetImage(Single resolution)
+   в System.Windows.Forms.DataVisualization.Charting.Chart.SaveImage(Stream imageStream, ChartImageFormat format)
+   в System.Windows.Forms.DataVisualization.Charting.Chart.SaveImage(String imageFileName, ChartImageFormat format)
+   в _SSU_EyesOffice.FormMain.SaveChartToFile(Chart chart, String file, List`1 record, Func`2 predicate, Single centerLeft, Single centerRight, Int32 width) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\Form1.cs:строка 889
+   в _SSU_EyesOffice.FormMain.btnReport_Click(Object sender, EventArgs e) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\Form1.cs:строка 835
+
+############################################################################
+--------------
+############################################################################
+
+[01.04.2016 11:54:09]: btnReport_Click(object sender, EventArgs e)
+###
+Недостаточно памяти.
+###
+System.OutOfMemoryException: Недостаточно памяти.
+   в System.Drawing.Bitmap.Clone(Rectangle rect, PixelFormat format)
+   в System.Windows.Forms.DataVisualization.Charting.ChartArea.PaintCursors(ChartGraphics graph, Boolean cursorOnly)
+   в System.Windows.Forms.DataVisualization.Charting.ChartPicture.Paint(Graphics graph, Boolean paintTopLevelElementOnly)
+   в System.Windows.Forms.DataVisualization.Charting.ChartImage.GetImage(Single resolution)
+   в System.Windows.Forms.DataVisualization.Charting.Chart.SaveImage(Stream imageStream, ChartImageFormat format)
+   в System.Windows.Forms.DataVisualization.Charting.Chart.SaveImage(String imageFileName, ChartImageFormat format)
+   в _SSU_EyesOffice.FormMain.SaveChartToFile(Chart chart, String file, List`1 record, Func`2 predicate, Single centerLeft, Single centerRight, Int32 width) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\Form1.cs:строка 889
+   в _SSU_EyesOffice.FormMain.btnReport_Click(Object sender, EventArgs e) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\Form1.cs:строка 835
+
+############################################################################
+--------------
+############################################################################
+
+[01.04.2016 11:54:27]: btnReport_Click(object sender, EventArgs e)
+###
+Недостаточно памяти.
+###
+System.OutOfMemoryException: Недостаточно памяти.
+   в System.Drawing.Bitmap.Clone(Rectangle rect, PixelFormat format)
+   в System.Windows.Forms.DataVisualization.Charting.ChartArea.PaintCursors(ChartGraphics graph, Boolean cursorOnly)
+   в System.Windows.Forms.DataVisualization.Charting.ChartPicture.Paint(Graphics graph, Boolean paintTopLevelElementOnly)
+   в System.Windows.Forms.DataVisualization.Charting.ChartImage.GetImage(Single resolution)
+   в System.Windows.Forms.DataVisualization.Charting.Chart.SaveImage(Stream imageStream, ChartImageFormat format)
+   в System.Windows.Forms.DataVisualization.Charting.Chart.SaveImage(String imageFileName, ChartImageFormat format)
+   в _SSU_EyesOffice.FormMain.SaveChartToFile(Chart chart, String file, List`1 record, Func`2 predicate, Single centerLeft, Single centerRight, Int32 width) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\Form1.cs:строка 889
+   в _SSU_EyesOffice.FormMain.btnReport_Click(Object sender, EventArgs e) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\Form1.cs:строка 835
+
+############################################################################
+--------------
+############################################################################
+
+[01.04.2016 11:55:41]: btnReport_Click(object sender, EventArgs e)
+###
+Недостаточно памяти.
+###
+System.OutOfMemoryException: Недостаточно памяти.
+   в System.Drawing.Bitmap.Clone(Rectangle rect, PixelFormat format)
+   в System.Windows.Forms.DataVisualization.Charting.ChartArea.PaintCursors(ChartGraphics graph, Boolean cursorOnly)
+   в System.Windows.Forms.DataVisualization.Charting.ChartPicture.Paint(Graphics graph, Boolean paintTopLevelElementOnly)
+   в System.Windows.Forms.DataVisualization.Charting.ChartImage.GetImage(Single resolution)
+   в System.Windows.Forms.DataVisualization.Charting.Chart.SaveImage(Stream imageStream, ChartImageFormat format)
+   в System.Windows.Forms.DataVisualization.Charting.Chart.SaveImage(String imageFileName, ChartImageFormat format)
+   в _SSU_EyesOffice.FormMain.SaveChartToFile(Chart chart, String file, List`1 record, Func`2 predicate, Single centerLeft, Single centerRight, Int32 width) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\Form1.cs:строка 889
+   в _SSU_EyesOffice.FormMain.btnReport_Click(Object sender, EventArgs e) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\Form1.cs:строка 835
+
+############################################################################
+--------------
+############################################################################
+
+[01.04.2016 12:01:05]: btnReport_Click(object sender, EventArgs e)
+###
+Недостаточно памяти.
+###
+System.OutOfMemoryException: Недостаточно памяти.
+   в System.Drawing.Bitmap.Clone(Rectangle rect, PixelFormat format)
+   в System.Windows.Forms.DataVisualization.Charting.ChartArea.PaintCursors(ChartGraphics graph, Boolean cursorOnly)
+   в System.Windows.Forms.DataVisualization.Charting.ChartPicture.Paint(Graphics graph, Boolean paintTopLevelElementOnly)
+   в System.Windows.Forms.DataVisualization.Charting.ChartImage.GetImage(Single resolution)
+   в System.Windows.Forms.DataVisualization.Charting.Chart.SaveImage(Stream imageStream, ChartImageFormat format)
+   в System.Windows.Forms.DataVisualization.Charting.Chart.SaveImage(String imageFileName, ChartImageFormat format)
+   в _SSU_EyesOffice.FormMain.SaveChartToFile(Chart chart, String file, List`1 record, Func`2 predicate, Single centerLeft, Single centerRight, Int32 width)
+   в _SSU_EyesOffice.FormMain.btnReport_Click(Object sender, EventArgs e)
+
+############################################################################
+--------------
+############################################################################
+
+[08.04.2016 21:32:57]: Couldn't open connection Patient.SelectAllFromDB
+###
+Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+###
+System.InvalidOperationException: Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+   в System.Data.OleDb.OleDbServicesWrapper.GetDataSource(OleDbConnectionString constr, DataSourceWrapper& datasrcWrapper)
+   в System.Data.OleDb.OleDbConnectionInternal..ctor(OleDbConnectionString constr, OleDbConnection connection)
+   в System.Data.OleDb.OleDbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningObject)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateNonPooledConnection(DbConnection owningConnection, DbConnectionPoolGroup poolGroup, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   в System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionInternal.OpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory)
+   в System.Data.OleDb.OleDbConnection.Open()
+   в _SSU_EyesOffice.Logic.DataBase.Connect() в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\DataBase.cs:строка 72
+   в _SSU_EyesOffice.Logic.Patient.SelectAllFromDB() в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Patient.cs:строка 92
+
+############################################################################
+--------------
+############################################################################
+
+[08.04.2016 21:33:06]: Couldn't open connection Patient.SelectAllFromDB
+###
+Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+###
+System.InvalidOperationException: Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+   в System.Data.OleDb.OleDbServicesWrapper.GetDataSource(OleDbConnectionString constr, DataSourceWrapper& datasrcWrapper)
+   в System.Data.OleDb.OleDbConnectionInternal..ctor(OleDbConnectionString constr, OleDbConnection connection)
+   в System.Data.OleDb.OleDbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningObject)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateNonPooledConnection(DbConnection owningConnection, DbConnectionPoolGroup poolGroup, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   в System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionInternal.OpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory)
+   в System.Data.OleDb.OleDbConnection.Open()
+   в _SSU_EyesOffice.Logic.DataBase.Connect() в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\DataBase.cs:строка 72
+   в _SSU_EyesOffice.Logic.Patient.SelectAllFromDB() в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Patient.cs:строка 92
+
+############################################################################
+--------------
+############################################################################
+
+[08.04.2016 21:33:14]: Couldn't open connection Patient.SelectAllFromDB
+###
+Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+###
+System.InvalidOperationException: Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+   в System.Data.OleDb.OleDbServicesWrapper.GetDataSource(OleDbConnectionString constr, DataSourceWrapper& datasrcWrapper)
+   в System.Data.OleDb.OleDbConnectionInternal..ctor(OleDbConnectionString constr, OleDbConnection connection)
+   в System.Data.OleDb.OleDbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningObject)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateNonPooledConnection(DbConnection owningConnection, DbConnectionPoolGroup poolGroup, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   в System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionInternal.OpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory)
+   в System.Data.OleDb.OleDbConnection.Open()
+   в _SSU_EyesOffice.Logic.DataBase.Connect() в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\DataBase.cs:строка 72
+   в _SSU_EyesOffice.Logic.Patient.SelectAllFromDB() в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Patient.cs:строка 92
+
+############################################################################
+--------------
+############################################################################
+
+[08.04.2016 21:33:28]:  btnAdd_Click(object sender, EventArgs e) Logic.Patient.AddToDB(проба, проба, False, 08.04.2016 0:00:00, )
+###
+Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+###
+System.InvalidOperationException: Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+   в System.Data.OleDb.OleDbServicesWrapper.GetDataSource(OleDbConnectionString constr, DataSourceWrapper& datasrcWrapper)
+   в System.Data.OleDb.OleDbConnectionInternal..ctor(OleDbConnectionString constr, OleDbConnection connection)
+   в System.Data.OleDb.OleDbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningObject)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateNonPooledConnection(DbConnection owningConnection, DbConnectionPoolGroup poolGroup, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   в System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionInternal.OpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory)
+   в System.Data.OleDb.OleDbConnection.Open()
+   в _SSU_EyesOffice.Logic.DataBase.Connect() в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\DataBase.cs:строка 72
+   в _SSU_EyesOffice.Logic.Patient.AddToDB(String secondName, String name, Boolean isFemale, DateTime birthDay, String comments) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Patient.cs:строка 221
+   в _SSU_EyesOffice.Forms.FormAddPatient.btnAdd_Click(Object sender, EventArgs e) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormAddPatient.cs:строка 24
+
+############################################################################
+--------------
+############################################################################
+
+[08.04.2016 21:33:31]: Couldn't open connection Patient.SelectAllFromDB
+###
+Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+###
+System.InvalidOperationException: Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+   в System.Data.OleDb.OleDbServicesWrapper.GetDataSource(OleDbConnectionString constr, DataSourceWrapper& datasrcWrapper)
+   в System.Data.OleDb.OleDbConnectionInternal..ctor(OleDbConnectionString constr, OleDbConnection connection)
+   в System.Data.OleDb.OleDbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningObject)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateNonPooledConnection(DbConnection owningConnection, DbConnectionPoolGroup poolGroup, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   в System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionInternal.OpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory)
+   в System.Data.OleDb.OleDbConnection.Open()
+   в _SSU_EyesOffice.Logic.DataBase.Connect() в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\DataBase.cs:строка 72
+   в _SSU_EyesOffice.Logic.Patient.SelectAllFromDB() в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Patient.cs:строка 92
+
+############################################################################
+--------------
+############################################################################
+
+[09.04.2016 21:53:55]: FormDetect(); Couldn't set capture for file C:\Users\КГБ\Desktop\123.avi
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[26.04.2016 13:42:57]: FormDetect(); Couldn't set capture for file C:\Users\КГБ\Desktop\123.avi
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[26.04.2016 13:43:11]: FormDetect(); Couldn't set capture for file C:\Users\КГБ\Videos\2016-04-26_101622_194.avi
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[26.04.2016 13:43:41]: FormDetect(); Couldn't set capture for file C:\Users\КГБ\Desktop\проба.avi
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[10.05.2016 16:49:16]: FormDetect(); Couldn't set capture for file C:\Users\КГБ\Desktop\123.avi
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[10.05.2016 16:49:29]: FormDetect(); Couldn't set capture for file C:\Users\КГБ\Videos\2016-04-26_101622_194.avi
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[10.05.2016 16:58:49]: FormDetect(); Couldn't set capture for file C:\Users\КГБ\Videos\2016-04-26_101622_194.avi
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[15.05.2016 13:35:30]: FormDetect(); Couldn't set capture for file C:\Users\КГБ\Videos\2016-04-26_101622_194.avi
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[15.05.2016 13:35:35]: FormDetect(); Couldn't set capture for file C:\Users\КГБ\Desktop\проба.avi
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[10.02.2021 14:58:24]: Couldn't open connection Patient.SelectAllFromDB
+###
+Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+###
+System.InvalidOperationException: Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+   в System.Data.OleDb.OleDbServicesWrapper.GetDataSource(OleDbConnectionString constr, DataSourceWrapper& datasrcWrapper)
+   в System.Data.OleDb.OleDbConnectionInternal..ctor(OleDbConnectionString constr, OleDbConnection connection)
+   в System.Data.OleDb.OleDbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningObject)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateNonPooledConnection(DbConnection owningConnection, DbConnectionPoolGroup poolGroup, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   в System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionInternal.OpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory)
+   в System.Data.OleDb.OleDbConnection.Open()
+   в _SSU_EyesOffice.Logic.DataBase.Connect() в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\DataBase.cs:строка 72
+   в _SSU_EyesOffice.Logic.Patient.SelectAllFromDB() в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Patient.cs:строка 92
+
+############################################################################
+--------------
+############################################################################
+
+[10.02.2021 14:58:32]:  btnAdd_Click(object sender, EventArgs e) Logic.Patient.AddToDB(dr, dfgh, False, 10.02.2021 0:00:00, )
+###
+Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+###
+System.InvalidOperationException: Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+   в System.Data.OleDb.OleDbServicesWrapper.GetDataSource(OleDbConnectionString constr, DataSourceWrapper& datasrcWrapper)
+   в System.Data.OleDb.OleDbConnectionInternal..ctor(OleDbConnectionString constr, OleDbConnection connection)
+   в System.Data.OleDb.OleDbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningObject)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateNonPooledConnection(DbConnection owningConnection, DbConnectionPoolGroup poolGroup, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   в System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionInternal.OpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory)
+   в System.Data.OleDb.OleDbConnection.Open()
+   в _SSU_EyesOffice.Logic.DataBase.Connect() в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\DataBase.cs:строка 72
+   в _SSU_EyesOffice.Logic.Patient.AddToDB(String secondName, String name, Boolean isFemale, DateTime birthDay, String comments) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Patient.cs:строка 221
+   в _SSU_EyesOffice.Forms.FormAddPatient.btnAdd_Click(Object sender, EventArgs e) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormAddPatient.cs:строка 24
+
+############################################################################
+--------------
+############################################################################
+
+[10.02.2021 14:58:44]:  btnAdd_Click(object sender, EventArgs e) Logic.Patient.AddToDB(drdfgh dfgh, dfgh, False, 10.02.2021 0:00:00, fgh)
+###
+Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+###
+System.InvalidOperationException: Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+   в System.Data.OleDb.OleDbServicesWrapper.GetDataSource(OleDbConnectionString constr, DataSourceWrapper& datasrcWrapper)
+   в System.Data.OleDb.OleDbConnectionInternal..ctor(OleDbConnectionString constr, OleDbConnection connection)
+   в System.Data.OleDb.OleDbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningObject)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateNonPooledConnection(DbConnection owningConnection, DbConnectionPoolGroup poolGroup, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   в System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionInternal.OpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory)
+   в System.Data.OleDb.OleDbConnection.Open()
+   в _SSU_EyesOffice.Logic.DataBase.Connect() в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\DataBase.cs:строка 72
+   в _SSU_EyesOffice.Logic.Patient.AddToDB(String secondName, String name, Boolean isFemale, DateTime birthDay, String comments) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Patient.cs:строка 221
+   в _SSU_EyesOffice.Forms.FormAddPatient.btnAdd_Click(Object sender, EventArgs e) в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormAddPatient.cs:строка 24
+
+############################################################################
+--------------
+############################################################################
+
+[10.02.2021 14:58:46]: Couldn't open connection Patient.SelectAllFromDB
+###
+Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+###
+System.InvalidOperationException: Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+   в System.Data.OleDb.OleDbServicesWrapper.GetDataSource(OleDbConnectionString constr, DataSourceWrapper& datasrcWrapper)
+   в System.Data.OleDb.OleDbConnectionInternal..ctor(OleDbConnectionString constr, OleDbConnection connection)
+   в System.Data.OleDb.OleDbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningObject)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateNonPooledConnection(DbConnection owningConnection, DbConnectionPoolGroup poolGroup, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   в System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionInternal.OpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory)
+   в System.Data.OleDb.OleDbConnection.Open()
+   в _SSU_EyesOffice.Logic.DataBase.Connect() в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\DataBase.cs:строка 72
+   в _SSU_EyesOffice.Logic.Patient.SelectAllFromDB() в C:\EyesOffice2016\src\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Patient.cs:строка 92
+
+############################################################################
+--------------
+############################################################################
+
+[10.02.2021 15:04:42]: Couldn't open connection Patient.SelectAllFromDB
+###
+Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+###
+System.InvalidOperationException: Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+   в System.Data.OleDb.OleDbServicesWrapper.GetDataSource(OleDbConnectionString constr, DataSourceWrapper& datasrcWrapper)
+   в System.Data.OleDb.OleDbConnectionInternal..ctor(OleDbConnectionString constr, OleDbConnection connection)
+   в System.Data.OleDb.OleDbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningObject)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateNonPooledConnection(DbConnection owningConnection, DbConnectionPoolGroup poolGroup, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   в System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionInternal.OpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory)
+   в System.Data.OleDb.OleDbConnection.Open()
+   в _SSU_EyesOffice.Logic.DataBase.Connect() в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\DataBase.cs:строка 72
+   в _SSU_EyesOffice.Logic.Patient.SelectAllFromDB() в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Patient.cs:строка 92
+
+############################################################################
+--------------
+############################################################################
+
+[10.02.2021 15:04:47]:  btnAdd_Click(object sender, EventArgs e) Logic.Patient.AddToDB(dfgh, dfgh, False, 10.02.2021 0:00:00, dfgh)
+###
+Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+###
+System.InvalidOperationException: Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+   в System.Data.OleDb.OleDbServicesWrapper.GetDataSource(OleDbConnectionString constr, DataSourceWrapper& datasrcWrapper)
+   в System.Data.OleDb.OleDbConnectionInternal..ctor(OleDbConnectionString constr, OleDbConnection connection)
+   в System.Data.OleDb.OleDbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningObject)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateNonPooledConnection(DbConnection owningConnection, DbConnectionPoolGroup poolGroup, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   в System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionInternal.OpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory)
+   в System.Data.OleDb.OleDbConnection.Open()
+   в _SSU_EyesOffice.Logic.DataBase.Connect() в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\DataBase.cs:строка 72
+   в _SSU_EyesOffice.Logic.Patient.AddToDB(String secondName, String name, Boolean isFemale, DateTime birthDay, String comments) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Patient.cs:строка 221
+   в _SSU_EyesOffice.Forms.FormAddPatient.btnAdd_Click(Object sender, EventArgs e) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormAddPatient.cs:строка 24
+
+############################################################################
+--------------
+############################################################################
+
+[10.02.2021 15:06:25]: Couldn't open connection Patient.SelectAllFromDB
+###
+Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+###
+System.InvalidOperationException: Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+   в System.Data.OleDb.OleDbServicesWrapper.GetDataSource(OleDbConnectionString constr, DataSourceWrapper& datasrcWrapper)
+   в System.Data.OleDb.OleDbConnectionInternal..ctor(OleDbConnectionString constr, OleDbConnection connection)
+   в System.Data.OleDb.OleDbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningObject)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateNonPooledConnection(DbConnection owningConnection, DbConnectionPoolGroup poolGroup, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   в System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionInternal.OpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory)
+   в System.Data.OleDb.OleDbConnection.Open()
+   в _SSU_EyesOffice.Logic.DataBase.Connect() в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\DataBase.cs:строка 72
+   в _SSU_EyesOffice.Logic.Patient.SelectAllFromDB() в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Patient.cs:строка 92
+
+############################################################################
+--------------
+############################################################################
+
+[10.02.2021 15:06:29]:  btnAdd_Click(object sender, EventArgs e) Logic.Patient.AddToDB(eryt, rtyu, False, 10.02.2021 0:00:00, tru)
+###
+Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+###
+System.InvalidOperationException: Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+   в System.Data.OleDb.OleDbServicesWrapper.GetDataSource(OleDbConnectionString constr, DataSourceWrapper& datasrcWrapper)
+   в System.Data.OleDb.OleDbConnectionInternal..ctor(OleDbConnectionString constr, OleDbConnection connection)
+   в System.Data.OleDb.OleDbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningObject)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateNonPooledConnection(DbConnection owningConnection, DbConnectionPoolGroup poolGroup, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   в System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionInternal.OpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory)
+   в System.Data.OleDb.OleDbConnection.Open()
+   в _SSU_EyesOffice.Logic.DataBase.Connect() в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\DataBase.cs:строка 72
+   в _SSU_EyesOffice.Logic.Patient.AddToDB(String secondName, String name, Boolean isFemale, DateTime birthDay, String comments) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Patient.cs:строка 221
+   в _SSU_EyesOffice.Forms.FormAddPatient.btnAdd_Click(Object sender, EventArgs e) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormAddPatient.cs:строка 24
+
+############################################################################
+--------------
+############################################################################
+
+[10.02.2021 15:06:32]: Couldn't open connection Patient.SelectAllFromDB
+###
+Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+###
+System.InvalidOperationException: Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+   в System.Data.OleDb.OleDbServicesWrapper.GetDataSource(OleDbConnectionString constr, DataSourceWrapper& datasrcWrapper)
+   в System.Data.OleDb.OleDbConnectionInternal..ctor(OleDbConnectionString constr, OleDbConnection connection)
+   в System.Data.OleDb.OleDbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningObject)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateNonPooledConnection(DbConnection owningConnection, DbConnectionPoolGroup poolGroup, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   в System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionInternal.OpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory)
+   в System.Data.OleDb.OleDbConnection.Open()
+   в _SSU_EyesOffice.Logic.DataBase.Connect() в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\DataBase.cs:строка 72
+   в _SSU_EyesOffice.Logic.Patient.SelectAllFromDB() в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Patient.cs:строка 92
+
+############################################################################
+--------------
+############################################################################
+
+[10.02.2021 15:07:45]: Couldn't open connection Patient.SelectAllFromDB
+###
+Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+###
+System.InvalidOperationException: Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+   в System.Data.OleDb.OleDbServicesWrapper.GetDataSource(OleDbConnectionString constr, DataSourceWrapper& datasrcWrapper)
+   в System.Data.OleDb.OleDbConnectionInternal..ctor(OleDbConnectionString constr, OleDbConnection connection)
+   в System.Data.OleDb.OleDbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningObject)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateNonPooledConnection(DbConnection owningConnection, DbConnectionPoolGroup poolGroup, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   в System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionInternal.OpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory)
+   в System.Data.OleDb.OleDbConnection.Open()
+   в _SSU_EyesOffice.Logic.DataBase.Connect() в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\DataBase.cs:строка 72
+   в _SSU_EyesOffice.Logic.Patient.SelectAllFromDB() в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Patient.cs:строка 92
+
+############################################################################
+--------------
+############################################################################
+
+[10.02.2021 15:07:51]:  btnAdd_Click(object sender, EventArgs e) Logic.Patient.AddToDB(hj, ghj, False, 10.02.2021 0:00:00, fghj)
+###
+Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+###
+System.InvalidOperationException: Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+   в System.Data.OleDb.OleDbServicesWrapper.GetDataSource(OleDbConnectionString constr, DataSourceWrapper& datasrcWrapper)
+   в System.Data.OleDb.OleDbConnectionInternal..ctor(OleDbConnectionString constr, OleDbConnection connection)
+   в System.Data.OleDb.OleDbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningObject)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateNonPooledConnection(DbConnection owningConnection, DbConnectionPoolGroup poolGroup, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   в System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionInternal.OpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory)
+   в System.Data.OleDb.OleDbConnection.Open()
+   в _SSU_EyesOffice.Logic.DataBase.Connect() в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\DataBase.cs:строка 72
+   в _SSU_EyesOffice.Logic.Patient.AddToDB(String secondName, String name, Boolean isFemale, DateTime birthDay, String comments) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Patient.cs:строка 221
+   в _SSU_EyesOffice.Forms.FormAddPatient.btnAdd_Click(Object sender, EventArgs e) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormAddPatient.cs:строка 24
+
+############################################################################
+--------------
+############################################################################
+
+[10.02.2021 15:07:53]: Couldn't open connection Patient.SelectAllFromDB
+###
+Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+###
+System.InvalidOperationException: Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+   в System.Data.OleDb.OleDbServicesWrapper.GetDataSource(OleDbConnectionString constr, DataSourceWrapper& datasrcWrapper)
+   в System.Data.OleDb.OleDbConnectionInternal..ctor(OleDbConnectionString constr, OleDbConnection connection)
+   в System.Data.OleDb.OleDbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningObject)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateNonPooledConnection(DbConnection owningConnection, DbConnectionPoolGroup poolGroup, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   в System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionInternal.OpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory)
+   в System.Data.OleDb.OleDbConnection.Open()
+   в _SSU_EyesOffice.Logic.DataBase.Connect() в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\DataBase.cs:строка 72
+   в _SSU_EyesOffice.Logic.Patient.SelectAllFromDB() в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Patient.cs:строка 92
+
+############################################################################
+--------------
+############################################################################
+
+[10.02.2021 15:08:12]: Couldn't open connection Patient.SelectAllFromDB
+###
+Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+###
+System.InvalidOperationException: Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+   в System.Data.OleDb.OleDbServicesWrapper.GetDataSource(OleDbConnectionString constr, DataSourceWrapper& datasrcWrapper)
+   в System.Data.OleDb.OleDbConnectionInternal..ctor(OleDbConnectionString constr, OleDbConnection connection)
+   в System.Data.OleDb.OleDbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningObject)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateNonPooledConnection(DbConnection owningConnection, DbConnectionPoolGroup poolGroup, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   в System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionInternal.OpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory)
+   в System.Data.OleDb.OleDbConnection.Open()
+   в _SSU_EyesOffice.Logic.DataBase.Connect() в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\DataBase.cs:строка 72
+   в _SSU_EyesOffice.Logic.Patient.SelectAllFromDB() в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Patient.cs:строка 92
+
+############################################################################
+--------------
+############################################################################
+
+[10.02.2021 15:08:16]:  btnAdd_Click(object sender, EventArgs e) Logic.Patient.AddToDB(hjkl, hjkl, False, 10.02.2021 0:00:00, jkhl)
+###
+Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+###
+System.InvalidOperationException: Поставщик "Microsoft.ACE.OLEDB.12.0" не зарегистрирован на локальном компьютере.
+   в System.Data.OleDb.OleDbServicesWrapper.GetDataSource(OleDbConnectionString constr, DataSourceWrapper& datasrcWrapper)
+   в System.Data.OleDb.OleDbConnectionInternal..ctor(OleDbConnectionString constr, OleDbConnection connection)
+   в System.Data.OleDb.OleDbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningObject)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.CreateNonPooledConnection(DbConnection owningConnection, DbConnectionPoolGroup poolGroup, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   в System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   в System.Data.ProviderBase.DbConnectionInternal.OpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory)
+   в System.Data.OleDb.OleDbConnection.Open()
+   в _SSU_EyesOffice.Logic.DataBase.Connect() в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\DataBase.cs:строка 72
+   в _SSU_EyesOffice.Logic.Patient.AddToDB(String secondName, String name, Boolean isFemale, DateTime birthDay, String comments) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Patient.cs:строка 221
+   в _SSU_EyesOffice.Forms.FormAddPatient.btnAdd_Click(Object sender, EventArgs e) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormAddPatient.cs:строка 24
+
+############################################################################
+--------------
+############################################################################
+
+[10.02.2021 15:30:31]: FormDetect(); Couldn't set capture for file C:\Users\User\Videos\12 месяцев.mp4
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[10.02.2021 16:13:19]: FormDetect(); Couldn't set capture for file C:\Users\User\Videos\12 месяцев.mp4
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[10.02.2021 16:13:23]: FormDetect(); Couldn't set capture for file C:\Users\User\Videos\12 месяцев.mp4
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[10.02.2021 16:16:39]: FormDetect(); Couldn't set capture for file C:\Users\User\Videos\134.avi
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[10.02.2021 16:33:09]: FormDetect(); Couldn't set capture for file C:\Users\User\Videos\12 месяцев.mp4
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[10.02.2021 16:33:23]: FormDetect(); Couldn't set capture for file C:\Users\User\Desktop\Видео\7BA_Hartly.mp4
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[10.02.2021 16:37:18]: FormDetect(); Couldn't set capture for file C:\Users\User\Desktop\Видео\7BA_Hartly.mp4
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[10.02.2021 16:37:35]: FormDetect(); Couldn't set capture for file D:\Videoclip1.avi
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[10.02.2021 16:55:41]: FormDetect(); Couldn't set capture for file C:\Users\User\Videos\12 месяцев.mp4
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[10.02.2021 16:55:46]: FormDetect(); Couldn't set capture for file D:\Videoclip1.avi
+###
+Couldn't create capture: file D:\Videoclip1.avi was not found
+###
+System.IO.FileNotFoundException: Couldn't create capture: file D:\Videoclip1.avi was not found
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 105
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[10.02.2021 16:55:50]: FormDetect(); Couldn't set capture for file C:\Users\User\Desktop\Видео\7BA_Hartly.mp4
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[11.02.2021 7:49:48]: FormDetect(); Couldn't set capture for file C:\Users\User\Desktop\Видео\7BA_Hartly.mp4
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+
+[11.02.2021 7:49:54]: FormDetect(); Couldn't set capture for file C:\Users\User\Videos\12 месяцев.mp4
+###
+Couldn't create capture. Not supported file or stream
+###
+System.Exception: Couldn't create capture. Not supported file or stream
+   в _SSU_EyesOffice.Logic.Grabber.SetCapture(String videoFilePath, Int32 webCamIndex) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Logic\Grabber.cs:строка 136
+   в _SSU_EyesOffice.Forms.FormDetect..ctor(Record record, Int32 cameraIndex, Int32 patientId) в C:\Users\User\Downloads\[SSU]EyesOffice(8)\[SSU]EyesOffice\[SSU]EyesOffice\Forms\FormDetect.cs:строка 75
+
+############################################################################
+--------------
+############################################################################
+

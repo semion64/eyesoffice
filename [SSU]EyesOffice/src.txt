@@ -1,0 +1,4067 @@
+namespace _SSU_EyesOffice
+{
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Data;
+    using System.Drawing;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Windows.Forms;
+    using _SSU_EyesOffice.Logic;
+    using System.IO;
+    using System.Windows.Forms.DataVisualization.Charting;
+    using Word = Microsoft.Office.Interop.Word;
+
+    public partial class FormMain : Form
+    {
+        private List<Patient> patients;
+
+        private Grabber grabber = new Grabber();
+
+        private int currentFrame = 0;
+
+        private Record currentRecord = null;
+
+        private bool isNoVideo = false;
+
+        public FormMain()
+        {
+            InitializeComponent();
+            UpdatePatientsList();
+
+            chart1.ChartAreas[0].CursorX.Position = 0;
+            chart1.ChartAreas[0].CursorX.LineColor = Color.Green;
+            chart1.ChartAreas[0].CursorX.LineWidth = 2;
+            chart1.ChartAreas[0].AxisX.Title = "№ кадра";
+            chart1.ChartAreas[0].AxisY.Title = "X, мм";
+            chart1.ChartAreas[0].AxisX.IntervalAutoMode = IntervalAutoMode.VariableCount;
+            chart1.ChartAreas[0].AxisY.IntervalAutoMode = IntervalAutoMode.VariableCount;
+            chart1.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.Gray;
+            chart1.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.Gray;
+
+            chart2.ChartAreas[0].CursorX.Position = 0;
+            chart2.ChartAreas[0].CursorX.LineColor = Color.Green;
+            chart2.ChartAreas[0].CursorX.LineWidth = 2;
+            chart2.ChartAreas[0].AxisX.Title = "№ кадра";
+            chart2.ChartAreas[0].AxisY.Title = "Y, мм";
+            chart2.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.Gray;
+            chart2.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.Gray;
+
+            chart2.ChartAreas[0].AxisX.IntervalAutoMode = IntervalAutoMode.VariableCount;
+            chart2.ChartAreas[0].AxisY.IntervalAutoMode = IntervalAutoMode.VariableCount;
+
+            File.Delete($"{Directory.GetCurrentDirectory()}//temp.jpeg");
+            FormMain_Resize(null, null);
+        }
+
+        private void UpdatePatientsList()
+        {
+            this.EnabledPatientButtons(false);
+            this.ShowPatientRecords(false);
+            this.btnAnalize.Enabled = this.btnDeleteRecord.Enabled = btnChangeVideo.Enabled = false;
+
+            patients = new List<Patient>();
+            patients = Patient.SelectAllFromDB();
+
+            this.listBoxPatients.Items.Clear();
+
+            foreach (var item in patients)
+            {
+                this.listBoxPatients.Items.Add($"{item.SecondName} {item.Name}");
+            }
+
+            if (listBoxPatients.Items.Count > 0)
+            {
+                listBoxPatients.SelectedIndex = 0;
+            }
+        }
+
+        private void btnAddPatient_Click(object sender, EventArgs e)
+        {
+            var formAddPatinet = new Forms.FormAddPatient();
+            formAddPatinet.Show();
+            formAddPatinet.FormClosed += FormAddPatinet_FormClosed;
+        }
+
+        private void FormAddPatinet_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.UpdatePatientsList();
+        }
+
+        private void btnEditPatient_Click(object sender, EventArgs e)
+        {
+            if (listBoxPatients.SelectedIndex < 0)
+            {
+                return;
+            }
+
+            var formEditPatinet = new Forms.FormEditPatient(this.patients[listBoxPatients.SelectedIndex].Id);
+            formEditPatinet.FormClosed += FormEditPatinet_FormClosed;
+        }
+
+        private void FormEditPatinet_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.UpdatePatientsList();
+        }
+
+        private void listBoxPatients_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.ShowPatientRecords(false);
+            this.btnAnalize.Enabled = this.btnDeleteRecord.Enabled = btnChangeVideo.Enabled = false;
+            if (listBoxPatients.SelectedIndex < 0)
+            {
+                return;
+            }
+
+            var patient = this.patients[listBoxPatients.SelectedIndex];
+            lblCurrentPatientName.Text = patient.Name;
+            lblCurrentPatientSecondName.Text = patient.SecondName;
+            lblCurrentPatientBirthDate.Text = patient.BirthDate.ToShortDateString();
+            lblCurrentPatientSex.Text = patient.IsFemale ? "женский" : "мужской";
+            lblCurrentPatientComments.Text = patient.Comments;
+
+            this.EnabledRecordButtons(true);
+            this.EnabledPatientButtons(true);
+
+            try
+            {
+                this.patients[listBoxPatients.SelectedIndex].Records = Record.SelectAllFromDB(this.patients[listBoxPatients.SelectedIndex].Id);
+            }
+            catch (Exception ex)
+            {
+                Logging.Log(ex, $"listBoxPatients_SelectedIndexChanged(object sender, EventArgs e)  Record.SelectAllFromDB()");
+                MessageBox.Show("Ошибка запроса к базе данных записей пациента", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.ShowPatientRecords(false);
+                return;
+            }
+
+            this.dataGrid.Rows.Clear();
+
+            foreach (var item in this.patients[listBoxPatients.SelectedIndex].Records)
+            {
+                this.dataGrid.Rows.Add(new string[] { item.Id.ToString(), item.Path, item.Date.ToString() });
+            }
+
+            this.ShowPatientRecords(true);
+
+            dataGrid_SelectionChanged(null, null);
+        }
+
+        private void btnDeletePatient_Click(object sender, EventArgs e)
+        {
+            if (listBoxPatients.SelectedIndex < 0)
+            {
+                return;
+            }
+
+            var patient = patients[listBoxPatients.SelectedIndex];
+            if (MessageBox.Show($"Вы уверены, что хотите удалить пациента: [{patient.Id}] {patient.Name} {patient.SecondName}? Все записи с ним также будут удалены", "Вы уверены?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                try
+                {
+                    patients[listBoxPatients.SelectedIndex].Delete();
+                }
+                catch (Exception ex)
+                {
+                    Logging.Log(ex, $"btnDeletePatient_Click(object sender, EventArgs e); patients[{listBoxPatients.SelectedIndex}].Delete();");
+                    MessageBox.Show("Ошибка при удалении", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                MessageBox.Show("Пациент удален", "Удалено", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                listBoxPatients.Items.Remove(listBoxPatients.SelectedItem);
+                this.UpdatePatientsList();
+            }
+
+        }
+
+        private void btnFromVideo_Click(object sender, EventArgs e)
+        {
+            if (listBoxPatients.SelectedIndex < 0)
+            {
+                return;
+            }
+
+            OpenFileDialog ofd = new OpenFileDialog();
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    Record.AddToDB(
+                        this.patients[listBoxPatients.SelectedIndex].Id,
+                        ofd.FileName,
+                        DateTime.Now);
+                    listBoxPatients_SelectedIndexChanged(null, null);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка при добавлении видео", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Logging.Log(ex, $"btnFromVideo_Click(object sender, EventArgs e);  Record.AddToDB();");
+                }
+            }
+        }
+
+        private void dataGrid_SelectionChanged(object sender, EventArgs e)
+        {
+            this.ShowRecordDetail(false);
+            currentFrame = 0;
+
+            isNoVideo = false;
+
+            if (dataGrid.CurrentRow == null
+                || dataGrid.CurrentRow.Index < 0
+                || patients[listBoxPatients.SelectedIndex].Records.Count == 0
+                || dataGrid.CurrentRow.Index >= patients[listBoxPatients.SelectedIndex].Records.Count
+                || listBoxPatients.SelectedIndex < 0)
+            {
+                btnAnalize.Enabled = btnChangeVideo.Enabled = btnDeleteRecord.Enabled = false;
+                return;
+            }
+
+            this.btnAnalize.Enabled = btnChangeVideo.Enabled = this.btnDeleteRecord.Enabled = true;
+
+            this.currentRecord = patients[listBoxPatients.SelectedIndex].Records[dataGrid.CurrentRow.Index];
+
+
+            if (!File.Exists($"data//{currentRecord.Id}.dat"))
+            {
+                return;
+            }
+
+            try
+            {
+                currentRecord.Open();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Некорректный файл с данными о детектировании", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Logging.Log(ex, $"dataGrid_SelectionChanged(object sender, EventArgs e), currentRecord.Open() recordID: {currentRecord?.Id}");
+                return;
+            }
+
+            if (currentRecord.Length <= 0)
+            {
+                MessageBox.Show("Видео ещё не было анализировано", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            try
+            {
+                grabber.ReleaseCapture();
+                grabber.SetCapture(currentRecord.Path);
+            }
+            catch (Exception ex)
+            {
+                //Logging.Log(ex, $"dataGridSelection_change setCapture for file: {currentRecord?.Path}");
+                isNoVideo = true;
+                grabber.ReleaseCapture();
+                // return;
+            }
+
+            lblID.Text = currentRecord.Id.ToString();
+            lblPath.Text = string.IsNullOrWhiteSpace(currentRecord.Comments) ? (isNoVideo ? "Видео файл не найден или неверный формат" : currentRecord.Path) : currentRecord.Comments;
+            lblDate.Text = currentRecord.Date.ToString("dd.MM.yyyy");
+
+            ShowFrame(0);
+
+            RedrawGraph(currentRecord);
+            ShowRecordDetail(true);
+        }
+
+        private void RedrawGraph(Record record)
+        {
+            chart1.Series[0].Points.Clear();
+            chart1.Series[1].Points.Clear();
+
+            chart2.Series[0].Points.Clear();
+            chart2.Series[1].Points.Clear();
+
+            chart2.Width = record.Length;
+            chart1.Width = record.Length;
+
+            var minLeft = record.CenterLeftX();
+            var minRight = record.CenterRightX();
+
+            var minLeftY = record.CenterLeftY();
+            var minRightY = record.CenterRightY();
+            int i = 0;
+            foreach(var item in record.data)
+            {
+                chart1.Series[0].Points.AddXY(i, item.left.X - minLeft);
+                chart1.Series[1].Points.AddXY(i, item.right.X - minRight);
+
+                chart2.Series[0].Points.AddXY(i, item.left.Y - minLeftY);
+                chart2.Series[1].Points.AddXY(i, item.right.Y - minRightY);
+                i++;
+            }
+        }
+
+        private void ShowFrame(int frame)
+        {
+            if (isNoVideo)
+            {
+                pbxColorImage.Visible = false;
+                return;
+            }
+
+            if (frame < 0 || frame >= currentRecord.Length)
+            {
+                MessageBox.Show("Выход за границы разпознанных данных", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                grabber.SetFramePos(frame);
+                grabber.GrabImage();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Выход за границы видео файла", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var left = currentRecord.GetLeft(frame);
+            var right = currentRecord.GetRight(frame);
+
+            var colorBit = new Bitmap(grabber.Image.Bitmap);
+            var g = Graphics.FromImage(colorBit);
+            g.DrawLine(Pens.Red, new Point(0, (int)left.Y), new Point(colorBit.Width, (int)left.Y));
+            g.DrawLine(Pens.Red, new Point((int)left.X, 0), new Point((int)left.X, colorBit.Height));
+            g.DrawLine(Pens.Blue, new Point(0, (int)right.Y), new Point(colorBit.Width, (int)right.Y));
+            g.DrawLine(Pens.Blue, new Point((int)right.X, 0), new Point((int)right.X, colorBit.Height));
+
+            pbxColorImage.Image = colorBit;
+
+            g.Dispose();
+
+            chart1.ChartAreas[0].CursorX.SetCursorPosition(frame);
+            chart2.ChartAreas[0].CursorX.SetCursorPosition(frame);
+            statusFrame.Text = frame.ToString();
+            statusLeft.Text = $"x={Math.Round((currentRecord[currentFrame].left.X - currentRecord.CenterLeftX()), 2).ToString()}  y={Math.Round((currentRecord[currentFrame].left.Y - currentRecord.CenterLeftY()), 2).ToString()}";
+            statusRight.Text = $"x={Math.Round((currentRecord[currentFrame].right.X - currentRecord.CenterRightX()), 2).ToString()}  y={Math.Round((currentRecord[currentFrame].right.Y - currentRecord.CenterRightY()), 2).ToString()}";
+            statusTime.Text = ((float)currentRecord[currentFrame].msecs / (float)1000).ToString() + " s";
+
+            pbxColorImage.Visible = true;
+        }
+
+        private void Form_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.Visible = true;
+            if (listBoxPatients.SelectedIndex < 0)
+            {
+                return;
+            }
+
+            try
+            {
+                this.patients[listBoxPatients.SelectedIndex].Records = Record.SelectAllFromDB(this.patients[listBoxPatients.SelectedIndex].Id);
+                this.listBoxPatients_SelectedIndexChanged(null, null);
+            }
+            catch
+            {
+                MessageBox.Show("Произошла ошибка, обновите список записей", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnFromCamera_Click(object sender, EventArgs e)
+        {
+            pnlCameraIndex.Visible = true;
+        }
+
+        private void btnCameraDetect_Click(object sender, EventArgs e)
+        {
+            if (this.listBoxPatients.SelectedIndex < 0)
+            {
+                return;
+            }
+
+            int cameraIndex;
+
+            if (!int.TryParse(txtCameraIndex.Text, out cameraIndex) || cameraIndex < 0)
+            {
+                MessageBox.Show("Введите число больше нуля", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                Forms.FormDetect form = new Forms.FormDetect(null, cameraIndex, this.patients[this.listBoxPatients.SelectedIndex].Id);
+                form.FormClosed += Form_FormClosed;
+                if (form.Visible)
+                {
+                    this.Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Visible = true;
+            }
+        }
+
+        private void btnNext_Click(object sender, EventArgs e)
+        {
+            btnPrev.Enabled = true;
+            if (currentFrame + 1 < grabber.Length - 1)
+            {
+                ShowFrame(++currentFrame);
+            }
+            else
+            {
+                btnNext.Enabled = false;
+            }
+        }
+
+        private void btnPrev_Click(object sender, EventArgs e)
+        {
+            btnNext.Enabled = true;
+            if (currentFrame - 1 >= 0)
+            {
+                ShowFrame(--currentFrame);
+            }
+            else
+            {
+                btnPrev.Enabled = false;
+            }
+        }
+
+        private void chart1_MouseDown(object sender, MouseEventArgs e)
+        {
+            chart1.ChartAreas[0].CursorX.SetCursorPixelPosition(new Point(e.X, e.Y), true);
+            chart2.ChartAreas[0].CursorX.SetCursorPixelPosition(new Point(e.X, e.Y), true);
+            var x = chart1.ChartAreas[0].CursorX.Position;
+            if ((int)x >= grabber.Length - 1 || x < 0)
+            {
+                MessageBox.Show("Выход за границы файла", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            currentFrame = (int)x;
+            ShowFrame(currentFrame);
+        }
+
+        private void pbxColorImage_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (currentRecord == null)
+            {
+                return;
+            }
+
+            if (e.Button == MouseButtons.Right)
+            {
+                currentRecord.SetLeft(currentFrame, ((PointF)(e.Location)).Scale(currentRecord.CalibFactor));
+                chart1.Series[0].Points.Remove(chart1.Series[0].Points[currentFrame]);
+                chart1.Series[0].Points.InsertXY(currentFrame, currentFrame, ((PointF)e.Location).Scale(currentRecord.CalibFactor).X - currentRecord.CenterLeftX());
+
+                chart2.Series[0].Points.Remove(chart2.Series[0].Points[currentFrame]);
+                chart2.Series[0].Points.InsertXY(currentFrame, currentFrame, ((PointF)e.Location).Scale(currentRecord.CalibFactor).Y - currentRecord.CenterLeftY());
+            }
+            else if (e.Button == MouseButtons.Left)
+            {
+                currentRecord.SetRight(currentFrame, ((PointF)e.Location).Scale(currentRecord.CalibFactor));
+                chart1.Series[1].Points.Remove(chart1.Series[1].Points[currentFrame]);
+                chart1.Series[1].Points.InsertXY(currentFrame, currentFrame, ((PointF)e.Location).Scale(currentRecord.CalibFactor).X - currentRecord.CenterRightX());
+
+                chart2.Series[1].Points.Remove(chart2.Series[1].Points[currentFrame]);
+                chart2.Series[1].Points.InsertXY(currentFrame, currentFrame, ((PointF)e.Location).Scale(currentRecord.CalibFactor).Y - currentRecord.CenterRightY());
+            }
+
+            this.ShowFrame(currentFrame);
+
+            try
+            {
+                currentRecord.Save();
+            }
+            catch (Exception ex)
+            {
+                Logging.Log(ex, $"pbxColorImage_MouseClick(object sender, MouseEventArgs e) recordID: {currentRecord?.Id}");
+                MessageBox.Show("Не могу записать значения в файл", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnCalc_Click(object sender, EventArgs e)
+        {
+            if (currentRecord == null)
+            {
+                return;
+            }
+
+            double vybrosy;
+            if (!double.TryParse(txtVibrosy.Text, out vybrosy) || vybrosy <= 0)
+            {
+                MessageBox.Show("Введите корректное значение фактора интерполяции", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int cnt = currentRecord.Interpolate(vybrosy);
+
+            try
+            {
+                currentRecord.Save();
+                MessageBox.Show($"Было изменено значений: {cnt}", "Выполнено", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                Logging.Log(ex, $"btnCalc_Click(object sender, EventArgs e) recordID: {currentRecord?.Id}");
+                MessageBox.Show("Не могу записать значения в файл", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+            this.ShowFrame(0);
+            this.RedrawGraph(currentRecord);
+        }
+
+        private void btnAnalize_Click(object sender, EventArgs e)
+        {
+            if (listBoxPatients.SelectedIndex < 0 || dataGrid.CurrentCell.RowIndex < 0)
+            {
+                return;
+            }
+
+            var record = patients[listBoxPatients.SelectedIndex].Records[dataGrid.CurrentCell.RowIndex];
+
+            try
+            {
+                Forms.FormDetect form = new Forms.FormDetect(record);
+                form.FormClosed += Form_FormClosed;
+                if (form.Visible)
+                {
+                    this.Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Visible = true;
+            }
+        }
+
+        private void btnDeleteRecord_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Вы уверены, что хотите удалить данную запись?", "Вы уверены?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                try
+                {
+                    currentRecord.Delete();
+                }
+                catch (Exception ex)
+                {
+                    Logging.Log(ex, $"btnDeleteRecord_Click(object sender, EventArgs e) recordID: {currentRecord?.Id}");
+                    MessageBox.Show("Ошибка при удалении", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                MessageBox.Show("Запись удалена", "Удалено", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                patients[listBoxPatients.SelectedIndex].Records.Remove(patients[listBoxPatients.SelectedIndex].Records[dataGrid.CurrentRow.Index]);
+
+                dataGrid.Rows.Remove(dataGrid.SelectedRows[0]);
+
+                if (dataGrid.RowCount > 0)
+                {
+                    dataGrid.CurrentCell = dataGrid.Rows[0].Cells[0];
+                    dataGrid.Rows[0].Selected = true;
+                    this.dataGrid_SelectionChanged(null, null);
+                }
+                else
+                {
+                    this.listBoxPatients_SelectedIndexChanged(null, null);
+                }
+
+            }
+        }
+
+        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.grabber.ReleaseCapture();
+        }
+
+        #region append funcs
+
+        private void ShowMainForm(object sender, FormClosedEventArgs e)
+        {
+            this.Visible = true;
+        }
+
+        private void HideMainForm(object sender, EventArgs e)
+        {
+            this.Visible = false;
+        }
+
+        private void EnabledVideoProcessButtons(bool enabled)
+        {
+            this.btnCalc.Enabled = this.btnNext.Enabled = btnPrev.Enabled = this.btnSave.Enabled = this.btnReport.Visible = this.btnRedrawGraph.Enabled = btnXYShow.Enabled = btnSmooth.Enabled = btnBackUp.Enabled = txtVibrosy.Enabled = enabled;
+        }
+
+        private void EnabledRecordButtons(bool enabled)
+        {
+            //this.btnAnalize.Enabled = this.btnDeleteRecord.Enabled = enabled;
+            if (!enabled)
+            {
+                this.EnabledVideoProcessButtons(false);
+            }
+        }
+
+        private void EnabledPatientButtons(bool enabled)
+        {
+            this.btnDeletePatient.Enabled = this.btnEditPatient.Enabled = enabled;
+            if (!enabled)
+            {
+                this.EnabledRecordButtons(false);
+            }
+        }
+
+        private void ShowPatientRecords(bool visible)
+        {
+            if (!visible)
+            {
+                this.ShowRecordDetail(false);
+            }
+
+            this.EnabledRecordButtons(visible);
+            this.pnlMain.Visible = visible;
+        }
+
+        private void ShowRecordDetail(bool visible)
+        {
+            if (visible)
+            {
+                this.ShowPatientRecords(true);
+            }
+
+            this.EnabledVideoProcessButtons(visible);
+            this.splitContainer1.Panel2.Visible = visible;
+        }
+
+
+        private void FormMain_KeyDown(object sender, KeyEventArgs e)
+        {
+            e.Handled = true;
+            if (!splitContainer1.Panel2.Visible || currentRecord == null || currentRecord.Length <= 2)
+            {
+                return;
+            }
+
+            if (e.KeyCode == Keys.Left)
+            {
+                if (currentFrame <= 0)
+                {
+                    return;
+                }
+
+                btnNext.Enabled = true;
+                ShowFrame(--currentFrame);
+            }
+            else
+            {
+                if (e.KeyCode == Keys.Right)
+                {
+                    if (currentFrame + 1 >= currentRecord.Length)
+                    {
+                        return;
+                    }
+
+                    btnPrev.Enabled = true;
+                    ShowFrame(++currentFrame);
+                }
+            }
+        }
+
+        #endregion
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            pnlCameraIndex.Visible = false;
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            if (currentRecord != null)
+            {
+                SaveFileDialog sfd = new SaveFileDialog();
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        currentRecord.Save(sfd.FileName);
+                        MessageBox.Show("Данные экспортированы в текстовый файл", "Выполнено", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        Logging.Log(ex, $"btnSave_Click(object sender, EventArgs e) currentRecord.Save({sfd.FileName})");
+                        MessageBox.Show("Ошибка при сохранении", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+
+            }
+        }
+
+        private void btnRedrawGraph_Click(object sender, EventArgs e)
+        {
+            if (currentRecord == null)
+            {
+                return;
+            }
+
+            this.RedrawGraph(currentRecord);
+        }
+
+        private void btnSmooth_Click(object sender, EventArgs e)
+        {
+            if (currentRecord == null)
+            {
+                return;
+            }
+
+            int cnt = currentRecord.Interpolate();
+
+            try
+            {
+                currentRecord.Save();
+                MessageBox.Show($"Сглаживание выполнено", "Выполнено", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                Logging.Log(ex, $"btnSmooth_Click(object sender, EventArgs e) recordID: {currentRecord?.Id}");
+                MessageBox.Show("Не могу записать значения в файл", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+            this.ShowFrame(0);
+            this.RedrawGraph(currentRecord);
+        }
+
+        private void btnBackUp_Click(object sender, EventArgs e)
+        {
+            if (currentRecord.IsBackupEnabled && MessageBox.Show("Вы действительно хотите установить значения, которые были перед последней интерполяцией?", "Вы уверены?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                currentRecord.BackUp();
+                try
+                {
+                    currentRecord.Save();
+                    MessageBox.Show("Восстановлены значения перед последней интерполяцией");
+                }
+                catch (Exception ex)
+                {
+                    Logging.Log(ex, $"btnBackUp_Click(object sender, EventArgs e) recordID: {currentRecord?.Id}");
+                    MessageBox.Show("Не могу записать значения в файл", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
+                this.ShowFrame(0);
+                this.RedrawGraph(currentRecord);
+            }
+        }
+
+        private void btnXYShow_Click(object sender, EventArgs e)
+        {
+            Forms.PlotXY plot = new Forms.PlotXY(currentRecord);
+            plot.Show();
+        }
+
+        private void FormMain_Resize(object sender, EventArgs e)
+        {
+            splitContainer1.Location = new Point(0, 0);
+            splitContainer1.Width = pnlCenterDockFill.Width;
+            if (pnlCenterDockFill.VerticalScroll.Visible)
+            {
+                splitContainer1.Width -= 20;
+            }
+
+            splitContainer1.Height = pnlMain.Height - statusStrip1.Height;
+        }
+
+        private void btnChangeVideo_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                currentRecord.Path = ofd.FileName;
+                currentRecord.UpdateDB();
+                dataGrid_SelectionChanged(null, null);
+            }
+        }
+
+        private void ReplaceWordStub(string stubToReplace, string text, Word.Document wordDocumetn)
+        {
+            var range = wordDocumetn.Content;
+            range.Find.ClearFormatting();
+            range.Find.Execute(FindText: stubToReplace, ReplaceWith: text);
+        }
+
+        private void btnReport_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Docx files (*.docx)|*.docx";
+            sfd.FilterIndex = 1;
+
+            if (sfd.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            var wordApp = new Word.Application();
+
+            try
+            {
+                wordApp.Visible = false;
+
+                var wordDocument = wordApp.Documents.Open($"{Directory.GetCurrentDirectory()}//data//temp.docx");
+
+                var patient = patients[listBoxPatients.SelectedIndex];
+
+                var leftPeaks = currentRecord.PeaksLeft();
+                var rightPeaks = currentRecord.PeaksRight();
+                var maxL = currentRecord.GetMaxPeakToPeak(leftPeaks);
+                var maxR = currentRecord.GetMaxPeakToPeak(rightPeaks);
+                var minL = currentRecord.GetMinPeakToPeak(leftPeaks);
+                var minR = currentRecord.GetMinPeakToPeak(rightPeaks);
+
+                this.ReplaceWordStub("{SecondName}", patient.SecondName, wordDocument);
+                this.ReplaceWordStub("{Name}", patient.Name, wordDocument);
+                this.ReplaceWordStub("{BirthDay}", patient.BirthDate.ToString("dd.MM.yyyy"), wordDocument);
+                this.ReplaceWordStub("{Sex}", patient.IsFemale ? "женский" : "мужской", wordDocument);
+                this.ReplaceWordStub("{Comments}", patient.Comments, wordDocument);
+                this.ReplaceWordStub("{Date}", $"[{currentRecord.Id}] {currentRecord.Date.ToString("dd.MM.yyyy")}", wordDocument);
+                this.ReplaceWordStub("{Path}", currentRecord.Path, wordDocument);
+                this.ReplaceWordStub("{VideoComments}", currentRecord.Comments, wordDocument);
+                this.ReplaceWordStub("{MaxAmpl}", $"Левый: {Math.Round(maxL, 2)} мм; Правый: {Math.Round(maxR, 2)} мм", wordDocument);
+                this.ReplaceWordStub("{MinAmpl}", $"Левый: {Math.Round(minL, 2)} мм; Правый: {Math.Round(minR, 2)} мм", wordDocument);
+                this.ReplaceWordStub("{MeanAmpl}", $"Левый: {Math.Round(currentRecord.GetMeanAmplitude(leftPeaks),2)} мм \n Правый: {Math.Round(currentRecord.GetMeanAmplitude(rightPeaks),2)} мм", wordDocument);
+                this.ReplaceWordStub("{Freq}", $"{Math.Round(currentRecord.GetFreq(), 3)} Гц", wordDocument);
+
+                wordDocument.SaveAs2(sfd.FileName);
+
+                var cellRange = wordDocument.Tables[2].Cell(1, 1).Range;
+                this.SaveChartToFile(chart1, $"{Directory.GetCurrentDirectory()}//temp.jpeg", currentRecord.data, x => x.X, currentRecord.CenterLeftX(), currentRecord.CenterRightX(), 900);
+                var bit = Bitmap.FromFile($"{Directory.GetCurrentDirectory()}//temp.jpeg");
+                bit.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                bit.Save($"{Directory.GetCurrentDirectory()}//temp.jpeg");
+                bit.Dispose();
+                cellRange.InlineShapes.AddPicture($"{Directory.GetCurrentDirectory()}//temp.jpeg", Type.Missing, Type.Missing, Type.Missing);
+                File.Delete($"{Directory.GetCurrentDirectory()}//temp.jpeg");
+
+                cellRange = wordDocument.Tables[2].Cell(1, 2).Range;
+                this.SaveChartToFile(chart2, $"{Directory.GetCurrentDirectory()}//temp.jpeg", currentRecord.data, x => x.Y, currentRecord.CenterLeftY(), currentRecord.CenterRightY(), 900);
+                bit = Bitmap.FromFile($"{Directory.GetCurrentDirectory()}//temp.jpeg");
+                bit.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                bit.Save($"{Directory.GetCurrentDirectory()}//temp.jpeg");
+                bit.Dispose();
+                cellRange.InlineShapes.AddPicture($"{Directory.GetCurrentDirectory()}//temp.jpeg", Type.Missing, Type.Missing, Type.Missing);
+                File.Delete($"{Directory.GetCurrentDirectory()}//temp.jpeg");
+
+                cellRange = wordDocument.Tables[3].Cell(1, 1).Range;
+                Forms.PlotXY.SavePlotXYToFile(currentRecord, $"{Directory.GetCurrentDirectory()}//temp.jpeg", 600, 600);
+                cellRange.InlineShapes.AddPicture($"{Directory.GetCurrentDirectory()}//temp.jpeg", Type.Missing, Type.Missing, Type.Missing);
+                File.Delete($"{Directory.GetCurrentDirectory()}//temp.jpeg");
+
+                wordApp.Visible = true;
+            }
+            catch (Exception ex)
+            {
+                Logging.Log(ex, "btnReport_Click(object sender, EventArgs e)");
+                MessageBox.Show("Ошибка при создании отчета", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                wordApp.Quit();
+            }
+            finally
+            {
+            }
+        }
+
+        private void SaveChartToFile(Chart chart, string file, List<DataStruct> record, Func<PointF, float> predicate, float centerLeft, float centerRight, int width = 0)
+        {
+            var oldWidth = chart.Width;
+            if (width > 0 && oldWidth > width)
+            {
+               chart.Width = width;
+            }
+
+            chart.Series[0].Points.Clear();
+            chart.Series[1].Points.Clear();
+
+
+            foreach (var item in record)
+            {
+                chart.Series[0].Points.AddXY(Math.Round(item.msecs / 1000.0, 3), predicate(item.left) - centerLeft);
+                chart.Series[1].Points.AddXY(Math.Round(item.msecs / 1000.0, 3), predicate(item.right) - centerRight);
+            }
+
+            chart.ChartAreas[0].AxisX.Title = "Время, c";
+            chart.SaveImage(file, ChartImageFormat.Jpeg);
+
+            chart.Series[0].Points.Clear();
+            chart.Series[1].Points.Clear();
+
+            chart.Width = oldWidth;
+
+            int i = 0;
+            foreach (var item in record)
+            {
+                chart.Series[0].Points.AddXY(i, predicate(item.left) - centerLeft);
+                chart.Series[1].Points.AddXY(i++, predicate(item.right) - centerRight);
+            }
+
+            chart.ChartAreas[0].AxisX.Title = "№ кадра";
+        }
+
+        private void btnChartXSave_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Png files (*.jpeg)|*.jpeg";
+            sfd.FilterIndex = 1;
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                this.SaveChartToFile(chart1, sfd.FileName, currentRecord.data, x => x.X, currentRecord.CenterLeftX(), currentRecord.CenterRightX());
+            }
+        }
+
+        private void btnChartYSave_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Png files (*.jpeg)|*.jpeg";
+            sfd.FilterIndex = 1;
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                this.SaveChartToFile(chart1, sfd.FileName, currentRecord.data, x => x.Y, currentRecord.CenterLeftY(), currentRecord.CenterRightY());
+            }
+        }
+    }
+}
+namespace _SSU_EyesOffice.Forms
+{
+    using System;
+    using System.Windows.Forms;
+
+    public partial class FormAddPatient : Form
+    {
+        public FormAddPatient()
+        {
+            InitializeComponent();
+            txtSecondName.Select();
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtSecondName.Text))
+            {
+                MessageBox.Show("Введите фамилию", "Ошибка ввода", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                Logic.Patient.AddToDB(txtSecondName.Text, txtName.Text, radioButtonWoman.Checked, monthCalendar.SelectionRange.Start, txtComment.Text);
+
+                MessageBox.Show("Пользователь успешно создан", "Создание пользователя", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                this.Close();
+            }
+            catch(Exception ex)
+            {
+                Logic.Logging.Log(ex, $" btnAdd_Click(object sender, EventArgs e) Logic.Patient.AddToDB({txtSecondName.Text}, {txtName.Text}, {radioButtonWoman.Checked}, {monthCalendar.SelectionRange.Start}, {txtComment.Text})");
+                MessageBox.Show("Произошла ошибка при записи в БД", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+    }
+}
+namespace _SSU_EyesOffice.Forms
+{
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Data;
+    using System.Drawing;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Windows.Forms;
+    using _SSU_EyesOffice.Logic;
+    using Emgu.CV.Structure;
+    using Emgu.CV;
+
+    enum Algorithm
+    {
+        Binarization,
+        Gradient,
+        BinarizationExpand
+    };
+
+    enum Action
+    {
+        None,
+        RegionLeft,
+        RegionRight,
+        Calibration
+    };
+
+    public partial class FormDetect : Form
+    {
+        private int currentStep = 0;
+
+        private Algorithm algorithm;
+
+        string[] stepTitles = { "Алгоритм распознования", "Область глаз и калибровка", "Преобразование изображения", "Детектирование" };
+
+        private Action action = Action.None;
+        bool isMouseDown = false;
+        Grabber grabber = new Grabber();
+        Record record;
+
+        List<DataStruct> recordData = new List<DataStruct>();
+
+        Rectangle roiLeft, roiRight;
+        Point calibPt1, calibPt2;
+        int xStart, yStart;
+        private double calibFactor = 0.0;
+        int movieLength = 0;
+        bool isNowDetect = false;
+        bool end = false;
+        float centerLeft = 0, centerRight = 0, centerLeftY=0, centerRightY=0; //для смещения одного графика отн. другого
+        int cameraIndex = -1;
+        int timeInterval;
+        DateTime startTime;
+        int patientId = -1;
+        string filePath = "";
+        private IntPtr writerVideo;
+        private float maxX, minX = 0;
+
+        public FormDetect(Record record = null, int cameraIndex = -1, int patientId = -1)
+        {
+            this.record = record;
+            InitializeComponent();
+
+            this.Show();
+            this.UpdateStep();
+            
+            if (record != null)
+            {
+                try
+                {
+
+                    grabber.SetCapture(record.Path);
+                }
+                catch (Exception ex)
+                {
+                    this.Close();
+                    Logging.Log(ex, $"FormDetect(); Couldn't set capture for file {record?.Path}");
+                    MessageBox.Show("Неверный тип файла или файл не найден", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+            if (cameraIndex >= 0)
+            {
+                if (patientId <= 0)
+                {
+                    Logging.Log(null, $"FormDetect(); Incorrect patient id FormDetect.Init");
+                    MessageBox.Show("Неверный идентификатор пациента", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                this.patientId = patientId;
+                this.cameraIndex = cameraIndex;
+
+                try
+                {
+                    grabber.SetCapture("", cameraIndex);
+                }
+                catch (Exception ex)
+                {
+                    this.Close();
+                    Logging.Log(ex, $"FormDetect(); Couldn't set capture for camera {cameraIndex}");
+                    MessageBox.Show("Не могу произвести захват с веб-камеры", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+            chart1.ChartAreas[0].AxisX.Title = "Время, с";
+            chart1.ChartAreas[0].AxisY.Title = "X, мм";
+            chart2.ChartAreas[0].AxisX.Title = "X, мм";
+            chart2.ChartAreas[0].AxisY.Title = "Y, мм";
+
+            pbxBinB.Visible = pbxBinG.Visible = pbxBinR.Visible = pbxBinH.Visible = pbxBinS.Visible = pbxBinV.Visible = false;
+        }
+
+        #region funcs
+        private void UpdateStep()
+        {
+            isNowDetect = false;
+            pnlStep1.Visible = pnlStep2.Visible = pnlStep3.Visible = pnlStep3Expand
+                .Visible = pnlStep3Gradient.Visible = pnlStep4.Visible = false;
+            btnBack.Visible = btnNext.Visible = true;
+            timer1.Stop();
+            switch (currentStep)
+            {
+                case 0:
+                    {
+                        pnlStep1.Visible = true;
+                        btnNext.Visible = false;
+                        btnBack.Visible = false;
+                        pnlStep1.Dock = DockStyle.Fill;
+                    }
+
+                    break;
+                case 1:
+                    {
+                        pnlStep2.Visible = true;
+                        pnlStep2.Dock = DockStyle.Fill;
+                        timer1.Start();
+                    }
+
+                    break;
+                case 2:
+                    {
+                        if (algorithm == Algorithm.Gradient)
+                        {
+                            pnlStep3Gradient.Visible = true;
+                            pnlStep3Gradient.Dock = DockStyle.Fill;
+
+                        }
+                        else if (algorithm == Algorithm.BinarizationExpand)
+                        {
+                            pnlStep3Expand.Visible = true;
+                            pnlStep3Expand.Dock = DockStyle.Fill;
+                        }
+                        else if (algorithm == Algorithm.Binarization)
+                        {
+                            pnlStep3.Visible = true;
+                            pnlStep3.Dock = DockStyle.Fill;
+                        }
+
+                        timer1.Start();
+                    }
+                    break;
+                case 3:
+                    {
+                        pnlStep4.Visible = true;
+                        btnNext.Visible = false;
+                        btnPause.Visible = false;
+                        pnlStep4.Dock = DockStyle.Fill;
+                        centerLeft = centerRight = 0;
+                        CvInvoke.cvReleaseVideoWriter(ref this.writerVideo);
+                        centerLeft = centerLeftY = centerRight = centerRightY = 0;
+                        maxX = minX = 0;
+                        calibFactor = double.Parse(txtCalib.Text) / Math.Sqrt(Math.Pow(calibPt1.X - calibPt2.X, 2) + Math.Pow(calibPt2.Y - calibPt1.Y, 2));
+
+                        if (cameraIndex >= 0)
+                        {
+                            txtTime.Visible = true;
+                            lblminutestitle.Visible = true;
+                        }
+
+                        groupMeanMedian.Visible = (algorithm == Algorithm.Binarization || algorithm == Algorithm.BinarizationExpand);
+
+                        chart1.Series[0].Points.Clear();
+                        chart1.Series[1].Points.Clear();
+                        movieLength = grabber.Length;
+                        btnStartDetect.Text = "Начать";
+                    }
+
+                    break;
+            }
+
+            this.lblLevelIndex.Text = (currentStep + 1).ToString() + ". ";
+            this.lblLevel.Text = stepTitles[currentStep];
+        }
+
+        private void btnNext_Click(object sender, EventArgs e)
+        {
+            if (this.CheckStepCorrect())
+            {
+                this.currentStep++;
+                this.UpdateStep();
+            }
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            if (currentStep == 3)
+            {
+                if (MessageBox.Show("Вы уверены, что хотите прервать детектирование?", "Вы уверены?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                {
+                    return;
+                }
+            }
+
+            this.currentStep--;
+            this.UpdateStep();
+        }
+
+        private bool CheckStepCorrect()
+        {
+            switch (currentStep)
+            {
+                case 1:
+                    {
+                        if (roiLeft.Width <= 0 || roiLeft.Height <= 0)
+                        {
+                            MessageBox.Show("Выделите область для левого глаза", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return false;
+                        }
+
+                        if (roiRight.Width <= 0 || roiRight.Height <= 0)
+                        {
+                            MessageBox.Show("Выделите область для правого глаза", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return false;
+                        }
+
+                        if (calibPt1 == calibPt2)
+                        {
+                            MessageBox.Show("Проведите калибровочный отрезок", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return false;
+                        }
+
+                        double d;
+                        if (!double.TryParse(txtCalib.Text, out d) || d <= 0)
+                        {
+                            MessageBox.Show("Неверно введено калибровочное значение", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return false;
+                        }
+                    }
+
+                    break;
+                case 2:
+                    {
+                        if (algorithm == Algorithm.Binarization && tbStep3.Value <= 0)
+                        {
+                            MessageBox.Show("Выберите порог бинаризации", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return false;
+                        }
+                        else if (algorithm == Algorithm.BinarizationExpand)
+                        {
+                            if (!chboxB.Checked && !chboxG.Checked && !chboxH.Checked && !chboxR.Checked && !chboxS.Checked && !chboxV.Checked)
+                            {
+                                MessageBox.Show("Выберите хотя бы одну из компонент", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                return false;
+                            }
+
+                        }
+                        else if (algorithm == Algorithm.Gradient)
+                        {
+
+                        }
+                    }
+
+                    break;
+            }
+
+            return true;
+        }
+
+        private void FormDetect_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (currentStep == 3 && !end)
+            {
+                if (MessageBox.Show("Прогресс будет утерян, вы действительно хотите закрыть форму?", "Вы уверены?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+            }
+
+            CvInvoke.cvReleaseVideoWriter(ref this.writerVideo);
+            grabber.ReleaseCapture();
+        }
+        #endregion
+
+        #region step1
+        private void btn_1_Binarization_Click(object sender, EventArgs e)
+        {
+            this.algorithm = Algorithm.Binarization;
+            this.currentStep++;
+            this.UpdateStep();
+        }
+
+        private void btn_1_Gradient_Click(object sender, EventArgs e)
+        {
+            this.algorithm = Algorithm.Gradient;
+            this.currentStep++;
+            this.UpdateStep();
+        }
+        #endregion
+
+        #region step2
+        private void btnLeft_Click(object sender, EventArgs e)
+        {
+            lblStep2Status.Text = "Выделите область левого глаза";
+            btnLeft.Checked = true;
+            btnRight.Checked = false;
+            btnCalib.Checked = false;
+            this.action = Action.RegionLeft;
+        }
+
+        private void btnRight_Click(object sender, EventArgs e)
+        {
+            lblStep2Status.Text = "Выделите область правого глаза";
+            this.action = Action.RegionRight;
+            btnLeft.Checked = false;
+            btnRight.Checked = true;
+            btnCalib.Checked = false;
+        }
+
+        private void btnCalib_Click(object sender, EventArgs e)
+        {
+            lblStep2Status.Text = "Проведите калибровочный отрезок";
+            this.action = Action.Calibration;
+            btnLeft.Checked = false;
+            btnRight.Checked = false;
+            btnCalib.Checked = true;
+        }
+
+        private void pbxStep2_MouseUp(object sender, MouseEventArgs e)
+        {
+            this.isMouseDown = false;
+        }
+
+        private void pbxStep2_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!isMouseDown)
+            {
+                return;
+            }
+
+            if (action == Action.RegionLeft)
+            {
+                roiLeft.X = e.X > xStart ? xStart : e.X;
+                roiLeft.Y = e.Y > yStart ? yStart : e.Y;
+                roiLeft.Width = Math.Abs(e.X - xStart);
+                roiLeft.Height = Math.Abs(e.Y - yStart);
+            }
+            else if (action == Action.RegionRight)
+            {
+                roiRight.X = e.X > xStart ? xStart : e.X;
+                roiRight.Y = e.Y > yStart ? yStart : e.Y;
+                roiRight.Width = Math.Abs(e.X - xStart);
+                roiRight.Height = Math.Abs(e.Y - yStart);
+            }
+            else if (action == Action.Calibration)
+            {
+                calibPt2 = e.Location;
+            }
+
+            if (!timer1.Enabled)
+            {
+                //var imgClone = grabber.Image.Clone();
+                //bitStep2?.Dispose();
+                var bitStep2 = new Bitmap(grabber.Image.Bitmap);
+                Graphics g = Graphics.FromImage(bitStep2);
+                g.DrawRectangle(Pens.Red, roiLeft);
+                g.DrawRectangle(Pens.Blue, roiRight);
+                g.DrawLine(Pens.Azure, calibPt1, calibPt2);
+
+                pbxStep2.Image = bitStep2;
+                g.Dispose();
+                //imgClone.Dispose();
+            }
+        }
+
+        private void pbxStep2_MouseDown(object sender, MouseEventArgs e)
+        {
+            this.isMouseDown = true;
+            switch (action)
+            {
+                case Action.RegionLeft:
+                    {
+                        xStart = e.X;
+                        yStart = e.Y;
+                    }
+
+                    break;
+                case Action.RegionRight:
+                    {
+                        xStart = e.X;
+                        yStart = e.Y;
+                    }
+
+                    break;
+                case Action.Calibration:
+                    {
+                        calibPt1 = e.Location;
+                    }
+
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void btnStartPauseDetect_Click(object sender, EventArgs e)
+        {
+            isNowDetect = !isNowDetect;
+        }
+
+        private void btnStartPause_Click(object sender, EventArgs e)
+        {
+            timer1.Enabled = !timer1.Enabled;
+        }
+
+        private void tbReduce_Scroll_1(object sender, EventArgs e)
+        {
+            lblTbReduce.Text = tbReduce.Value.ToString();
+        }
+        #endregion step2
+
+        #region step 3
+        private void btnAdvanced_Click(object sender, EventArgs e)
+        {
+            pnlStep3.Visible = false;
+            pnlStep3Expand.Visible = true;
+            pnlStep3Expand.Dock = DockStyle.Fill;
+            algorithm = Algorithm.BinarizationExpand;
+        }
+
+        private void btnHideExpand_Click(object sender, EventArgs e)
+        {
+            pnlStep3.Visible = true;
+            pnlStep3Expand.Visible = false;
+            algorithm = Algorithm.Binarization;
+        }
+
+        private void tbStep3_Scroll(object sender, EventArgs e)
+        {
+            lblTrackBarStep3.Text = tbStep3.Value.ToString();
+        }
+
+        private void chbxHideImages_CheckedChanged(object sender, EventArgs e)
+        {
+            pbxDetectBin.Visible = pbxDetectColor.Visible = !chbxHideImages.Checked;
+        }
+
+        private void btnPause_Click(object sender, EventArgs e)
+        {
+            isNowDetect = !isNowDetect;
+            btnPause.Text = isNowDetect ? "Пауза" : "Продолжить";
+            timer1.Enabled = isNowDetect;
+        }
+
+        private void ChooseImageBinarization()
+        {
+            var color = grabber.Image.Reduce(tbReduce.Value);
+            var gray = GrayBin.ToGray(color);
+
+            if (chbxSmooth.Checked)
+            {
+                GrayBin.Smooth(gray);
+            }
+
+            if (chbxNormilize.Checked)
+            {
+                GrayBin.Normalize(gray);
+            }
+
+            var bin = GrayBin.Binarize(gray, tbStep3.Value);
+
+            pbxStep3Gray.Image = new Bitmap(gray.Bitmap);
+            GrayBin.InvertInRegions(bin, roiLeft.Reduce(tbReduce.Value), roiRight.Reduce(tbReduce.Value));
+            pbxStep3Bin.Image = new Bitmap(bin.Bitmap);
+
+            gray.Dispose();
+            bin.Dispose();
+            color.Dispose();
+        }
+
+        private void ChooseImageBinarizationExpand()
+        {
+            var components = new List<Image<Gray, byte>>();
+            int reduce = tbReduce.Value;
+            var small = grabber.Image.Reduce(reduce);
+            var hsv = GrayBin.ToHsv(small);
+            var rgb = GrayBin.ToRgbChanels(small);
+
+            if (pbxBinR.Visible)
+            {
+                if (chbxSmoothExpand.Checked)
+                {
+                    GrayBin.Smooth(rgb[0]);
+                }
+
+                if (chbxNormilizeExpand.Checked)
+                {
+                    GrayBin.Normalize(rgb[0]);
+                }
+
+                components.Add(GrayBin.Binarize(rgb[0], tbRMax.Value, tbRMin.Value));
+                var bin = components.Last().Clone();
+                GrayBin.InvertInRegions(bin, roiLeft.Reduce(reduce), roiRight.Reduce(reduce));
+                pbxBinR.Image = new Bitmap(bin.Bitmap);
+                bin.Dispose();
+            }
+
+            if (pbxBinG.Visible)
+            {
+                if (chbxSmoothExpand.Checked)
+                {
+                    GrayBin.Smooth(rgb[1]);
+                }
+
+                if (chbxNormilizeExpand.Checked)
+                {
+                    GrayBin.Normalize(rgb[1]);
+                }
+
+                components.Add(GrayBin.Binarize(rgb[1], tbGMax.Value, tbGMin.Value));
+                var bin = components.Last().Clone();
+                GrayBin.InvertInRegions(bin, roiLeft.Reduce(reduce), roiRight.Reduce(reduce));
+                pbxBinG.Image = new Bitmap(bin.Bitmap);
+                bin.Dispose();
+            }
+
+            if (pbxBinB.Visible)
+            {
+                if (chbxSmoothExpand.Checked)
+                {
+                    GrayBin.Smooth(rgb[2]);
+                }
+
+                if (chbxNormilizeExpand.Checked)
+                {
+                    GrayBin.Normalize(rgb[2]);
+                }
+
+                components.Add(GrayBin.Binarize(rgb[2], tbBMax.Value, tbBMin.Value));
+                var bin = components.Last().Clone();
+                GrayBin.InvertInRegions(bin, roiLeft.Reduce(reduce), roiRight.Reduce(reduce));
+                pbxBinB.Image = new Bitmap(bin.Bitmap);
+                bin.Dispose();
+            }
+
+            if (pbxBinH.Visible)
+            {
+                if (chbxSmoothExpand.Checked)
+                {
+                    GrayBin.Smooth(hsv[0]);
+                }
+
+                if (chbxNormilizeExpand.Checked)
+                {
+                    GrayBin.Normalize(hsv[0]);
+                }
+
+                components.Add(GrayBin.Binarize(hsv[0], tbHMax.Value, tbHMin.Value));
+                var bin = components.Last().Clone();
+                GrayBin.InvertInRegions(bin, roiLeft.Reduce(reduce), roiRight.Reduce(reduce));
+                pbxBinH.Image = new Bitmap(bin.Bitmap);
+                bin.Dispose();
+            }
+
+            if (pbxBinS.Visible)
+            {
+                if (chbxSmoothExpand.Checked)
+                {
+                    GrayBin.Smooth(hsv[1]);
+                }
+
+                if (chbxNormilizeExpand.Checked)
+                {
+                    GrayBin.Normalize(hsv[1]);
+                }
+
+                components.Add(GrayBin.Binarize(hsv[1], tbSMax.Value, tbSMin.Value));
+                var bin = components.Last().Clone();
+                GrayBin.InvertInRegions(bin, roiLeft.Reduce(reduce), roiRight.Reduce(reduce));
+                pbxBinS.Image = new Bitmap(bin.Bitmap);
+                bin.Dispose();
+            }
+
+            if (pbxBinV.Visible)
+            {
+                if (chbxSmoothExpand.Checked)
+                {
+                    GrayBin.Smooth(hsv[2]);
+                }
+
+                if (chbxNormilizeExpand.Checked)
+                {
+                    GrayBin.Normalize(hsv[2]);
+                }
+
+                components.Add(GrayBin.Binarize(hsv[2], tbVMax.Value, tbVMin.Value));
+                var bin = components.Last().Clone();
+                GrayBin.InvertInRegions(bin, roiLeft.Reduce(reduce), roiRight.Reduce(reduce));
+                pbxBinV.Image = new Bitmap(bin.Bitmap);
+                bin.Dispose();
+            }
+
+            pbxGrayH.Image = hsv[0].Bitmap;
+            pbxGrayS.Image = hsv[1].Bitmap;
+            pbxGrayV.Image = hsv[2].Bitmap;
+            pbxGrayR.Image = rgb[0].Bitmap;
+            pbxGrayG.Image = rgb[1].Bitmap;
+            pbxGrayB.Image = rgb[2].Bitmap;
+
+            if (components.Count > 0)
+            {
+                var result = GrayBin.And(components);
+
+                if (result != null)
+                {
+                    GrayBin.InvertInRegions(result, roiLeft.Reduce(reduce), roiRight.Reduce(reduce));
+                    pbxResult.Image = new Bitmap(result.Bitmap);
+                    result.Dispose();
+                }
+            }
+
+            hsv.Dispose();
+            foreach (var item in rgb)
+            {
+                item.Dispose();
+            }
+
+            foreach (var item in components)
+            {
+                item.Dispose();
+            }
+
+            small.Dispose();
+        }
+
+        private void ChooseImageGradient()
+        {
+            int reduce = tbReduce.Value;
+            var small = grabber.Image.Reduce(reduce);
+            var gray = GrayBin.ToGray(small);
+            var hsv = GrayBin.ToHsv(small);
+            var rgb = GrayBin.ToRgbChanels(small);
+            if (chbxSmoothGradient.Checked)
+            {
+                GrayBin.Smooth(hsv[0]);
+                GrayBin.Smooth(hsv[1]);
+                GrayBin.Smooth(hsv[2]);
+
+                GrayBin.Smooth(rgb[0]);
+                GrayBin.Smooth(rgb[1]);
+                GrayBin.Smooth(rgb[2]);
+                GrayBin.Smooth(gray);
+            }
+
+            if (chbxNormalizeGradient.Checked)
+            {
+                GrayBin.Normalize(hsv[0]);
+                GrayBin.Normalize(hsv[1]);
+                GrayBin.Normalize(hsv[2]);
+
+                GrayBin.Normalize(rgb[0]);
+                GrayBin.Normalize(rgb[1]);
+                GrayBin.Normalize(rgb[2]);
+                GrayBin.Normalize(gray);
+            }
+
+            pbxGradientH.Image = hsv[0].Bitmap;
+            pbxGradientS.Image = hsv[1].Bitmap;
+            pbxGradientV.Image = hsv[2].Bitmap;
+            pbxGradientR.Image = rgb[0].Bitmap;
+            pbxGradientG.Image = rgb[1].Bitmap;
+            pbxGradientB.Image = rgb[2].Bitmap;
+            pbxGradientGray.Image = gray.Bitmap;
+
+            hsv.Dispose();
+            foreach (var item in rgb)
+            {
+                item.Dispose();
+            }
+
+            gray.Dispose();
+            small.Dispose();
+        }
+
+        private void ChooseImage()
+        {
+            if (algorithm == Algorithm.Binarization)
+            {
+                ChooseImageBinarization();
+            }
+            else if (algorithm == Algorithm.BinarizationExpand)
+            {
+                ChooseImageBinarizationExpand();
+            }
+            else if (algorithm == Algorithm.Gradient)
+            {
+                ChooseImageGradient();
+            }
+        }
+
+        private void chboxR_CheckedChanged(object sender, EventArgs e)
+        {
+            pbxBinR.Visible = chboxR.Checked;
+        }
+        private void chboxH_CheckedChanged(object sender, EventArgs e)
+        {
+            pbxBinH.Visible = chboxH.Checked;
+        }
+        private void chboxS_CheckedChanged(object sender, EventArgs e)
+        {
+            pbxBinS.Visible = chboxS.Checked;
+        }
+        private void chboxG_CheckedChanged(object sender, EventArgs e)
+        {
+            pbxBinG.Visible = chboxG.Checked;
+        }
+        private void chboxV_CheckedChanged(object sender, EventArgs e)
+        {
+            pbxBinV.Visible = chboxV.Checked;
+        }
+        private void chboxB_CheckedChanged(object sender, EventArgs e)
+        {
+            pbxBinB.Visible = chboxB.Checked;
+        }
+
+        private void chbxGraphics_CheckedChanged(object sender, EventArgs e)
+        {
+            chart1.Visible = chart2.Visible = chbxGraphics.Checked;
+        }
+
+        private void FormDetect_Load(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
+
+        #region step4
+        private void btnStartDetect_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Начать детектирование?", "Вы уверены?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                if (cameraIndex >= 0)
+                {
+                    if (!int.TryParse(txtTime.Text, out timeInterval) || timeInterval <= 0)
+                    {
+                        MessageBox.Show("Задайте время в минутах", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    SaveFileDialog sfd = new SaveFileDialog();
+                    sfd.Filter = "Avi files (*.avi)|*.avi";
+                    sfd.FilterIndex = 1;
+                    if (sfd.ShowDialog() == DialogResult.OK)
+                    {
+                        filePath = sfd.FileName;
+                        writerVideo = CvInvoke.cvCreateVideoWriter(filePath, CvInvoke.CV_FOURCC('X', 'V', 'I', 'D'), 25, new Size(grabber.Image.Width, grabber.Image.Height), true);
+                    }
+                    else
+                    {
+                        return;
+                    }
+
+                    timeInterval = timeInterval * 60000;
+
+                    startTime = DateTime.Now;
+                }
+
+                grabber.SetFramePos(0);
+                timer1.Enabled = true;
+                isNowDetect = true;
+                btnStartDetect.Text = "Сначала";
+                btnPause.Visible = true;
+                btnPause.Text = "Пауза";
+            }
+        }
+
+        private Image<Gray, Byte> GetImageForExpandBinarization(Image<Bgr, Byte> img)
+        {
+            var components = new List<Image<Gray, byte>>();
+
+            var hsv = GrayBin.ToHsv(img);
+
+            var rgb = GrayBin.ToRgbChanels(img);
+
+            if (chboxR.Checked)
+            {
+                if (chbxSmoothExpand.Checked)
+                {
+                    GrayBin.Smooth(rgb[0]);
+                }
+
+                if (chbxNormilizeExpand.Checked)
+                {
+                    GrayBin.Normalize(rgb[0]);
+                }
+
+                components.Add(GrayBin.Binarize(rgb[0], tbRMax.Value, tbRMin.Value));
+            }
+
+            if (chboxG.Checked)
+            {
+                if (chbxSmoothExpand.Checked)
+                {
+                    GrayBin.Smooth(rgb[1]);
+                }
+
+                if (chbxNormilizeExpand.Checked)
+                {
+                    GrayBin.Normalize(rgb[1]);
+                }
+
+                components.Add(GrayBin.Binarize(rgb[1], tbGMax.Value, tbGMin.Value));
+            }
+
+            if (chboxB.Checked)
+            {
+                if (chbxSmoothExpand.Checked)
+                {
+                    GrayBin.Smooth(rgb[2]);
+                }
+
+                if (chbxNormilizeExpand.Checked)
+                {
+                    GrayBin.Normalize(rgb[2]);
+                }
+
+                components.Add(GrayBin.Binarize(rgb[2], tbBMax.Value, tbBMin.Value));
+            }
+
+            if (chboxH.Checked)
+            {
+                if (chbxSmoothExpand.Checked)
+                {
+                    GrayBin.Smooth(hsv[0]);
+                }
+
+                if (chbxNormilizeExpand.Checked)
+                {
+                    GrayBin.Normalize(hsv[0]);
+                }
+
+                components.Add(GrayBin.Binarize(hsv[0], tbHMax.Value, tbHMin.Value));
+            }
+
+            if (chboxS.Checked)
+            {
+                if (chbxSmoothExpand.Checked)
+                {
+                    GrayBin.Smooth(hsv[1]);
+                }
+
+                if (chbxNormilizeExpand.Checked)
+                {
+                    GrayBin.Normalize(hsv[1]);
+                }
+
+                components.Add(GrayBin.Binarize(hsv[1], tbSMax.Value, tbSMin.Value));
+            }
+
+            if (chboxV.Checked)
+            {
+                if (chbxSmoothExpand.Checked)
+                {
+                    GrayBin.Smooth(hsv[2]);
+                }
+
+                if (chbxNormilizeExpand.Checked)
+                {
+                    GrayBin.Normalize(hsv[2]);
+                }
+
+                components.Add(GrayBin.Binarize(hsv[2], tbVMax.Value, tbVMin.Value));
+            }
+
+            pbxGrayH.Image = hsv[0].Bitmap;
+            pbxGrayS.Image = hsv[1].Bitmap;
+            pbxGrayV.Image = hsv[2].Bitmap;
+            pbxGrayR.Image = rgb[0].Bitmap;
+            pbxGrayG.Image = rgb[1].Bitmap;
+            pbxGrayB.Image = rgb[2].Bitmap;
+
+            var result = GrayBin.And(components);
+
+            hsv.Dispose();
+            foreach (var item in rgb)
+            {
+                item.Dispose();
+            }
+
+            foreach (var item in components)
+            {
+                item.Dispose();
+            }
+
+            return result;
+        }
+
+        private Image<Gray, Byte> DetectGradient(Image<Bgr, Byte> color, out PointF ptLeft, out PointF ptRight)
+        {
+            Image<Gray, Byte> detectImage = null;
+            if (radioGray.Checked)
+            {
+                detectImage = GrayBin.ToGray(color);
+            }
+            else if (radioR.Checked)
+            {
+                var rgb = GrayBin.ToRgbChanels(color);
+                detectImage = rgb[0].Clone();
+                foreach (var item in rgb)
+                {
+                    item.Dispose();
+                }
+            }
+            else if (radioG.Checked)
+            {
+                var rgb = GrayBin.ToRgbChanels(color);
+                detectImage = rgb[1].Clone();
+                foreach (var item in rgb)
+                {
+                    item.Dispose();
+                }
+            }
+            else if (radioB.Checked)
+            {
+                var rgb = GrayBin.ToRgbChanels(color);
+                detectImage = rgb[2].Clone();
+                foreach (var item in rgb)
+                {
+                    item.Dispose();
+                }
+            }
+            else if (radioH.Checked)
+            {
+                var hsv = GrayBin.ToHsv(color);
+                detectImage = hsv[0].Clone();
+                hsv.Dispose();
+            }
+            else if (radioS.Checked)
+            {
+                var hsv = GrayBin.ToHsv(color);
+                detectImage = hsv[1].Clone();
+                hsv.Dispose();
+            }
+            else if (radioV.Checked)
+            {
+                var hsv = GrayBin.ToHsv(color);
+                detectImage = hsv[2].Clone();
+                hsv.Dispose();
+            }
+
+            CvInvoke.cvSetImageROI(detectImage, roiLeft.Reduce(tbReduce.Value));
+            ptLeft = Detect.EyeCenter(detectImage);
+            CvInvoke.cvResetImageROI(detectImage);
+            ptLeft.X += roiLeft.Reduce(tbReduce.Value).X;
+            ptLeft.Y += roiLeft.Reduce(tbReduce.Value).Y;
+
+            ptRight = Point.Empty;
+
+            return detectImage;
+        }
+
+        private void EndDetect()
+        {
+            timer1.Enabled = false;
+            btnStartDetect.Visible = false;
+            btnPause.Visible = false;
+            end = true;
+            if (record == null)
+            {
+                try
+                {
+                    //----Create Record here----
+                    Record.AddToDB(this.patientId, filePath, DateTime.Now, txtComments.Text, 0, this.calibFactor);
+                    record = new Record(DataBase.Instance.LastId("Records"), patientId, filePath, DateTime.Now, txtComments.Text, 0, this.calibFactor);
+                    //--------------------------
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка при сохранении в БД", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Logging.Log(ex, $"EndDetect() Record.AddToDB({this.patientId}, {filePath}, {DateTime.Now}, {txtComments.Text}, {0}, {this.calibFactor})");
+                    this.Close();
+                    return;
+                }
+            }
+
+            record.SetData(recordData);
+
+            try
+            {
+                record.CalibFactor = this.calibFactor;
+                record.Comments = this.txtComments.Text;
+                record.UpdateDB();
+                record.Save();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Произошла ошибка при сохранении данных", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Logging.Log(ex, $"EndDetect() record.Save(); {record?.Id}");
+                this.Close();
+                return;
+            }
+
+            MessageBox.Show("Детектирование успешно завершено!", "Выполнено", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            this.Close();
+            return;
+        }
+        
+        private void DetectEyes()
+        {
+            if (isNowDetect)
+            {
+                int time = cameraIndex >= 0 ? (int)(DateTime.Now - startTime).TotalMilliseconds : grabber.GetTimePos();
+
+                if (cameraIndex >= 0)
+                {
+                    if ((DateTime.Now - startTime).TotalMilliseconds >= timeInterval)
+                    {
+                        EndDetect();
+                        return;
+                    }
+                }
+                else if (grabber.GetFramePos() >= grabber.Length - 1)
+                {
+                    EndDetect();
+                    return;
+                }
+
+                Image<Bgr, Byte> color = null;
+
+                var roiLeftReduce = roiLeft.Reduce(tbReduce.Value);
+                var roiRightReduce = roiRight.Reduce(tbReduce.Value);
+
+                if (tbReduce.Value > 1)
+                {
+                    color = grabber.Image.Clone().Reduce(tbReduce.Value);
+                }
+                else
+                {
+                    color = grabber.Image.Clone();
+                }
+
+                PointF ptLeft = PointF.Empty, ptRight = PointF.Empty;
+                Image<Gray, Byte> detectImage = null;
+
+                if (algorithm == Algorithm.Binarization)
+                {
+                    detectImage = GrayBin.ToGray(color);
+                    if (chbxSmooth.Checked)
+                    {
+                        GrayBin.Smooth(detectImage);
+                    }
+
+                    if (chbxNormilize.Checked)
+                    {
+                        GrayBin.Normalize(detectImage);
+                    }
+
+                    GrayBin.BinarizeImmediate(detectImage, tbStep3.Value);
+
+
+                }
+                else if (algorithm == Algorithm.BinarizationExpand)
+                {
+                    detectImage = this.GetImageForExpandBinarization(color);
+                }
+                else if (algorithm == Algorithm.Gradient)
+                {
+                    detectImage = this.DetectGradient(color, out ptLeft, out ptRight);
+                }
+
+                if (algorithm == Algorithm.Binarization || algorithm == Algorithm.BinarizationExpand)
+                {
+                    if (radioMean.Checked)
+                    {
+                        ptLeft = Detect.DetectMean(detectImage, roiLeftReduce);
+                        ptRight = Detect.DetectMean(detectImage, roiRightReduce);
+                    }
+                    else
+                    {
+                        ptLeft = Detect.DetectMedian(detectImage, roiLeftReduce);
+                        ptRight = Detect.DetectMedian(detectImage, roiRightReduce);
+                    }
+                }
+
+                double scaleFactor = (double)tbReduce.Value * calibFactor;
+
+                var ptLeftScale = ptLeft.Scale(scaleFactor);
+                var ptRightScale = ptRight.Scale(scaleFactor);
+                recordData.Add(new DataStruct(ptLeftScale, ptRightScale, time));
+
+                if (pbxDetectBin.Visible && pbxDetectColor.Visible)
+                {
+                    if (algorithm == Algorithm.Binarization || algorithm == Algorithm.BinarizationExpand)
+                    {
+                        GrayBin.InvertInRegions(detectImage, roiLeftReduce, roiRightReduce);
+                    }
+
+                    Bitmap colorBit = new Bitmap(color.Bitmap);
+                    Bitmap detectBit =new Bitmap(detectImage.Bitmap);
+
+                    var g = Graphics.FromImage(colorBit);
+                    g.DrawLine(Pens.Red, new Point(0, (int)ptLeft.Y), new Point(colorBit.Width, (int)ptLeft.Y));
+                    g.DrawLine(Pens.Red, new Point((int)ptLeft.X, 0), new Point((int)ptLeft.X, colorBit.Height));
+                    g.DrawLine(Pens.Blue, new Point(0, (int)ptRight.Y), new Point(colorBit.Width, (int)ptRight.Y));
+                    g.DrawLine(Pens.Blue, new Point((int)ptRight.X, 0), new Point((int)ptRight.X, colorBit.Height));
+                    g.DrawRectangle(Pens.Azure, roiLeftReduce);
+                    g.DrawRectangle(Pens.Azure, roiRightReduce);
+
+                    pbxDetectColor.Image = colorBit;
+                    pbxDetectBin.Image = detectBit;
+
+                    //colorBit.Dispose();
+                    //detectBit.Dispose();
+                    g.Dispose();
+              }
+
+                #region graph
+                if (chart1.Visible && chart2.Visible && ptLeft.X > 0 && ptRight.X > 0 && time > 10000)
+                {
+                    Record.Interpolate(recordData, 10);
+
+                    if (centerLeft == 0 || centerRight == 0)
+                    {
+                        centerLeft = Record.CenterLeftX(recordData);
+                        centerRight = Record.CenterRightX(recordData);
+                    }
+
+                    if (minX == 0 || maxX == 0)
+                    {
+                        minX = recordData[0].left.X - centerLeft;
+                        maxX = recordData[0].left.X - centerLeft;
+                        foreach (var item in recordData)
+                        {
+                            if (minX > item.left.X - centerLeft)
+                            {
+                                minX = item.left.X - centerLeft;
+                            }
+
+                            if (maxX < item.left.X - centerLeft)
+                            {
+                                maxX = item.left.X - centerLeft;
+                            }
+
+                            if (minX > item.right.X - centerRight)
+                            {
+                                minX = item.right.X - centerRight;
+                            }
+
+                            if (maxX < item.right.X - centerRight)
+                            {
+                                maxX = item.right.X - centerRight;
+                            }
+                        }
+                    }
+
+                    if (centerLeftY == 0 || centerRightY == 0)
+                    {
+                        centerLeftY = Record.CenterLeftY(recordData);
+                        centerRightY = Record.CenterRightY(recordData);
+
+                        double minY = 100000000;
+                        for (int i = 0; i < recordData.Count; i++)
+                        {
+                            if ((recordData[i].left.Y - centerLeftY) < minY && recordData[i].left.Y > 0)
+                            {
+                                minY = recordData[i].left.Y - centerLeftY;
+                            }
+
+                            if ((recordData[i].right.Y - centerRightY) < minY && recordData[i].right.Y > 0)
+                            {
+                                minY = recordData[i].right.Y - centerRightY;
+                            }
+                        }
+
+                        chart2.ChartAreas[0].AxisY.Minimum = Math.Round(minY, 2);
+                    }
+
+                    if ((ptLeftScale.X - centerLeft) >= minX * 1.2 && (ptRightScale.X - centerRight) >= minX * 1.2 && (ptLeftScale.X - centerLeft) <= maxX * 1.2 && (ptRightScale.X - centerRight) <= maxX * 1.2)
+                    {
+                        chart1.Series[0].Points.AddXY(Math.Round(time / 1000.0, 2), ptLeftScale.X - centerLeft);
+                        chart1.Series[1].Points.AddXY(Math.Round(time / 1000.0, 2), ptRightScale.X - centerRight);
+
+                        chart2.Series[0].Points.AddXY(Math.Round(ptLeftScale.X - centerLeft, 2), Math.Round(ptLeftScale.Y - centerLeftY, 2));
+                        chart2.Series[1].Points.AddXY(Math.Round(ptRightScale.X - centerRight, 2), Math.Round(ptRightScale.Y - centerRightY, 2));
+
+                        if (chart1.Width < time / 200)
+                        {
+                            chart1.Width += 1000;
+                        }
+                    }
+                }
+
+                #endregion
+
+                if (cameraIndex >= 0)
+                {
+                    try
+                    {
+                        CvInvoke.cvWriteFrame(this.writerVideo, this.grabber.Image);
+                    }
+                    catch
+                    {
+                        if (MessageBox.Show("Ошибка при сохранении очередного кадра в видеофайл. Детектирование прервано. Хотите сохранить выполненную часть?", "Ошибка", MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes)
+                        {
+                            this.EndDetect();
+                        }
+                        else
+                        {
+                            this.Close();
+                        }
+                    }
+
+                    try { progressBar1.Value = (int)(((double)time / timeInterval) * 100); } catch { }
+                }
+                else
+                {
+                    progressBar1.Value = (int)((1.0 - ((double)(movieLength - grabber.GetFramePos()) / (double)movieLength)) * 100);
+                }
+
+                
+                color.Dispose();
+                detectImage.Dispose();
+            }
+        }
+        #endregion
+
+        //Bitmap bitStep2;
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                grabber.GrabImage();
+            }
+            catch(Exception ex)
+            {
+                if (isNowDetect)
+                {
+                     if (MessageBox.Show("Ошибка при получении изображения из источника захвата. Детектирование прервано. Хотите сохранить выполненную часть?", "Ошибка", MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes)
+                     {
+                         this.EndDetect();
+                     }
+                     else
+                     {
+                         this.Close();
+                     }
+
+                    return;
+                }
+                else
+                {
+                    if (cameraIndex < 0)
+                    {
+                        grabber.SetFramePos(0);
+                        grabber.GrabImage();
+                    }
+                }
+            }
+
+            switch (currentStep)
+            {
+                case 1:
+                    {
+                        //bitStep2?.Dispose();
+                        var bitStep2 = new Bitmap(grabber.Image.Bitmap);
+                        Graphics g = Graphics.FromImage(bitStep2);
+                        g.DrawRectangle(Pens.Red, roiLeft);
+                        g.DrawRectangle(Pens.Blue, roiRight);
+                        g.DrawLine(Pens.Azure, calibPt1, calibPt2);
+                        pbxStep2.Image = bitStep2;
+                        g.Dispose();
+                    }
+
+                    break;
+                case 2:
+                    {
+                        ChooseImage();
+                    }
+
+                    break;
+
+                case 3:
+                    {
+                        this.DetectEyes();
+                    }
+                    break;
+            }
+        }
+        
+        #region notUsed
+        private void pnlStep5_Paint(object sender, PaintEventArgs e) { }
+        #endregion
+    }
+}
+namespace _SSU_EyesOffice.Forms
+{
+    using System;
+    using System.Windows.Forms;
+    using _SSU_EyesOffice.Logic;
+
+    public partial class FormEditPatient : Form
+    {
+        private int patientID;
+        public FormEditPatient(int patientID)
+        {
+            InitializeComponent();
+            
+            this.patientID = patientID;
+
+            var patient = Patient.SelectByID(patientID);
+            if (patient != null)
+            {
+                this.txtName.Text = patient.Name;
+                this.txtSecondName.Text = patient.SecondName;
+                this.radioButtonWoman.Checked = patient.IsFemale;
+                this.radioButtonMan.Checked = !patient.IsFemale;
+                this.txtComment.Text = patient.Comments;
+                this.monthCalendar.SetDate(patient.BirthDate);
+
+                this.Show();
+            }
+            else
+            {
+                MessageBox.Show("Данного пациента не существует", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                this.Close();
+            }
+
+            txtSecondName.Select();
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(this.txtSecondName.Text))
+                {
+                    MessageBox.Show("Введите фамилию", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                Patient.UpdateToDB(
+                    this.patientID,
+                    this.txtSecondName.Text,
+                    this.txtName.Text,
+                    this.radioButtonWoman.Checked,
+                    this.monthCalendar.SelectionStart,
+                    this.txtComment.Text);
+                MessageBox.Show("Изменения сохранены", "Выполнено", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при обращении к базе данных", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Logging.Log(ex, $"void btnAdd_Click(object sender, EventArgs e); Patient.UpdateToDB({this.patientID}, {this.txtSecondName.Text}, {this.txtName.Text}, {this.radioButtonWoman.Checked}, {this.monthCalendar.SelectionStart}, {this.txtComment.Text});");
+            }
+        }
+    }
+}
+using _SSU_EyesOffice.Logic;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
+
+namespace _SSU_EyesOffice.Forms
+{
+    public partial class PlotXY : Form
+    {
+        public static void SavePlotXYToFile(Record record, string file, int width, int height)
+        {
+            Chart chart = new Chart();
+            
+            chart.Width = width;
+            chart.Height = height;
+            chart.Series.Add(new Series());
+            chart.Series.Add(new Series());
+            chart.ChartAreas.Add(new ChartArea());
+
+            chart.Series[0].ChartType = SeriesChartType.Line;
+            chart.Series[1].ChartType = SeriesChartType.Line;
+            chart.Series[0].Color = Color.Red;
+            chart.Series[1].Color = Color.Blue;
+
+            var centerLeftY = record.CenterLeftY();
+            var centerRightY = record.CenterRightY();
+
+            double minY = 100000000;
+            foreach(var item in record.data)
+            {
+                if ((item.left.Y - centerLeftY) < minY && item.left.Y > 0)
+                {
+                    minY = item.left.Y - centerLeftY;
+                }
+
+                if ((item.right.Y - centerRightY) < minY && item.right.Y > 0)
+                {
+                    minY = item.right.Y - centerRightY;
+                }
+            }
+
+            chart.ChartAreas[0].AxisY.Minimum = Math.Round(minY, 2);
+
+            var centerLeftX = record.CenterLeftX();
+            var centerRightX = record.CenterRightX();
+
+            chart.ChartAreas[0].AxisX.Title = "X, мм";
+            chart.ChartAreas[0].AxisY.Title = "Y, мм";
+            
+            foreach(var item in record.data)
+            {
+                chart.Series[0].Points.AddXY(Math.Round(item.left.X - centerLeftX, 2), Math.Round(item.left.Y - centerLeftY, 2));
+                chart.Series[1].Points.AddXY(Math.Round(item.right.X - centerRightX, 2), Math.Round(item.right.Y - centerRightY, 2));
+            }
+
+            chart.SaveImage(file, ChartImageFormat.Png);
+        }
+
+        public PlotXY(Record record)
+        {
+            InitializeComponent();
+
+            var centerLeftY = record.CenterLeftY();
+            var centerRightY = record.CenterRightY();
+
+            double minY = 100000000;
+            for (int i = 0; i < record.Length; i++)
+            {
+                if ((record[i].left.Y - centerLeftY) < minY && record[i].left.Y > 0)
+                {
+                    minY = record[i].left.Y - centerLeftY;
+                }
+
+                if ((record[i].right.Y - centerRightY) < minY && record[i].right.Y > 0)
+                {
+                    minY = record[i].right.Y - centerRightY;
+                }
+            }
+            
+            chart1.ChartAreas[0].AxisY.Minimum = Math.Round(minY, 2);
+
+            var centerLeftX = record.CenterLeftX();
+            var centerRightX = record.CenterRightX();
+
+            chart1.ChartAreas[0].AxisX.Title = "X, мм";
+            chart1.ChartAreas[0].AxisY.Title = "Y, мм";
+
+            for (int i =0; i < record.Length; i++)
+            {
+                chart1.Series[0].Points.AddXY(Math.Round(record[i].left.X - centerLeftX, 2), Math.Round(record[i].left.Y - centerLeftY, 2));
+                chart1.Series[1].Points.AddXY(Math.Round(record[i].right.X - centerRightX, 2), Math.Round(record[i].right.Y - centerRightY, 2));
+            }
+        }
+
+        private void PlotXY_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Png files (*.png)|*.png";
+            sfd.FilterIndex = 1;
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                this.chart1.SaveImage(sfd.FileName, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png);
+            }
+        }
+    }
+}
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data;
+using System.Data.OleDb;
+
+namespace _SSU_EyesOffice.Logic
+{
+    public class DataBase
+    {
+        public OleDbConnection conn;
+
+        private static DataBase instance;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="location">Path to database file</param>
+        private DataBase(string location = "db.mdb")
+        {
+            this.Location = location;
+            // Подключаемся к базе данных SQL Server
+            this.conn = new OleDbConnection($"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={this.Location}");
+        }
+
+        /// <summary>
+        /// Use single tone techniques
+        /// </summary>
+        public static DataBase Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new DataBase();
+                }
+
+                return instance;
+            }
+        }
+
+        public bool CheckConnection()
+        {
+            try
+            {
+                this.Connect();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+                return false;
+            }
+
+            //this.Disconect();
+            return true;
+        }
+
+        public string Location { get; set; }
+
+
+        public void Connect()
+        {
+                     
+            try
+            {
+                this.conn.Open();
+            }
+            catch(Exception ex)
+            {
+                throw;
+                //throw Global.NewExc("Не могу подключиться к базе данных (Connect)", this);
+            }
+        }
+
+        public void Disconnect()
+        {
+            this.conn.Close();
+        }
+
+        public int LastId(string table)
+        {
+            this.Connect();
+            int lastId = -1;
+            OleDbCommand cmd = new OleDbCommand($"Select TOP 1 ID from {table} ORDER BY ID DESC", this.conn);
+            try
+            {
+                lastId = (int)cmd.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ошибка при получении идентификатора (LastId)");
+            }
+            finally
+            {
+                this.Disconnect();
+            }
+
+            return lastId;
+        }
+    }
+}
+using Emgu.CV;
+using Emgu.CV.Structure;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+namespace _SSU_EyesOffice.Logic
+{
+    public class Detect
+    {
+        public static PointF DetectMean(Image<Gray, Byte> img, Rectangle roi)
+        {
+            int totalX = 0;
+            int totalY = 0;
+            int cnt = 0;
+            for (int y = roi.Y; y < roi.Y + roi.Height; y++)
+            {
+                for (int x = roi.X; x < roi.X + roi.Width; x++)
+                {
+                    if(img.Data[y, x, 0] > 0)
+                    {
+                        totalX += x;
+                        totalY += y;
+                        cnt++; 
+                    }
+                }
+            }
+
+            if (cnt <= 0)
+            {
+                return PointF.Empty;
+            }
+
+            return new PointF(totalX / cnt, totalY / cnt);
+        }
+
+        public static PointF DetectMedian(Image<Gray, Byte> img, Rectangle roi)
+        {
+            var totalX = new List<int>();
+            var totalY = new List<int>();
+            for (int y = roi.Y; y < roi.Y + roi.Height; y++)
+            {
+                for (int x = roi.X; x < roi.X + roi.Width; x++)
+                {
+                    if (img.Data[y, x, 0] > 0)
+                    {
+                        totalX.Add(x);
+                        totalY.Add(y);
+                    }
+                }
+            }
+
+            if (totalX.Count <= 0 || totalY.Count <= 0)
+            {
+                return PointF.Empty;
+            }
+
+            totalX.Sort();
+            totalY.Sort();
+
+            return new PointF(totalX[totalX.Count / 2], totalY[totalY.Count / 2]);
+        }
+
+        public static PointF EyeCenter(Image<Gray, Byte> imgBytes)
+        {
+            double max = 0;
+            var maxPoint = System.Drawing.Point.Empty;
+
+            for (int y = 2; y < imgBytes.Height - 3; y++)
+            {
+                for (int x = 2; x < imgBytes.Width - 3; x++)
+                {
+                    var cur = CenterFunc(imgBytes, y, x);
+                    if (cur > max)
+                    {
+                        max = cur;
+                        maxPoint.X = x;
+                        maxPoint.Y = y;
+                    }
+                }
+            }
+
+            return maxPoint;
+        }
+
+        private static double CenterFunc(Image<Gray, Byte> img, int i0, int j0)
+        {
+            double res = 0;
+
+            double w = 255 - img.Data[i0, j0, 0];
+
+            for (int i = 0; i < i0 - 1; i++)
+            {
+                for (int j = 0; j < j0 - 1; j++)
+                {
+                    //if (i == i0 || j == j0)
+                    //{
+                    //    continue;
+                    //}
+
+                    var gradient = new Vector(
+                        img.Data[i + 1, j, 0] - img.Data[i, j, 0],
+                        img.Data[i, j + 1, 0] - img.Data[i, j, 0]
+                        );
+
+                    var length = Math.Sqrt(Math.Pow(i - i0, 2) + Math.Pow(j - j0, 2));
+
+                    var f = new Vector(
+                       (i - i0) / length,
+                       (j - j0) / length
+                       );
+
+                    res += (w / Math.Sqrt(1.0 + (Math.Pow(i - i0, 2) / Math.Pow(j - j0, 2)))) * Vector.Multiply(gradient, f);
+                }
+            }
+
+            return res;
+        }
+    }
+}
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _SSU_EyesOffice.Logic
+{
+    using System.IO;
+    using Emgu.CV;
+    using Emgu.CV.Structure;
+
+    /// <summary>
+    /// Базовый класс для источника изображения
+    /// в нашем случае источником является видеофайл
+    /// </summary>
+    public class Grabber
+    {
+        /// <summary>самое-самое оригинальное изображение</summary>
+        private Image<Bgr, Byte> image;
+
+        /// <summary>устройство захвата</summary>
+        private IntPtr capture;
+
+        public int Width
+        {
+            get
+            {
+                return (int)CvInvoke.cvGetCaptureProperty(capture, Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FRAME_WIDTH);
+            }
+        }
+
+        public int Height
+        {
+            get
+            {
+                return (int)CvInvoke.cvGetCaptureProperty(capture, Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FRAME_HEIGHT);
+            }
+        }
+
+        public double Fps
+        {
+            get
+            {
+                return CvInvoke.cvGetCaptureProperty(capture, Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FPS);
+            }
+        }
+
+        /// <summary>Длина видео-файла</summary>
+        public int Length
+        {
+            get
+            {
+                return (int)CvInvoke.cvGetCaptureProperty(this.capture, Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FRAME_COUNT);
+            }
+        }
+
+        public int WebCamIndex
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>Оригинальное изображение</summary>
+        public Image<Bgr, Byte> Image
+        {
+            get
+            {
+                return this.image;
+            }
+        }
+
+        /// <summary>
+        /// Возвращает текущую позицию в видеопотоке
+        /// </summary>
+        /// <returns></returns>
+        public int GetFramePos()
+        {
+            return (int)CvInvoke.cvGetCaptureProperty(this.capture, Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_POS_FRAMES);
+        }
+
+        /// <summary>
+        /// Возвращает текущую позицию в видеопотоке
+        /// </summary>
+        /// <returns></returns>
+        public int GetTimePos()
+        {
+            return (int)CvInvoke.cvGetCaptureProperty(this.capture, Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_POS_MSEC);
+        }
+
+        /// <summary>
+        /// Задаем устройство, откуда будем захватывать изображения
+        /// если указан индекс для веб-камеры videoFilePath игнорируется
+        /// </summary>
+        /// <param name="videoFilePath">путь к файлу</param>
+        /// /// <param name="webCamIndex">индекс веб-камеры</param>
+        public bool SetCapture(string videoFilePath, int webCamIndex = -1)
+        {
+            this.WebCamIndex = webCamIndex;
+            this.capture = IntPtr.Zero;
+            if (webCamIndex < 0)
+            {
+                if (!File.Exists(videoFilePath))
+                {
+                    throw new FileNotFoundException($"Couldn't create capture: file {videoFilePath} was not found");
+                }
+                else
+                {
+                    this.capture = CvInvoke.cvCreateFileCapture(videoFilePath);
+                }
+            }
+            else
+            {
+                this.capture = CvInvoke.cvCreateCameraCapture(webCamIndex);
+            }
+
+
+            if (this.capture != IntPtr.Zero)
+            {
+                this.image = new Image<Bgr, byte>(
+                    (int)CvInvoke.cvGetCaptureProperty(this.capture, Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FRAME_WIDTH),
+                    (int)CvInvoke.cvGetCaptureProperty(this.capture, Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FRAME_HEIGHT));
+
+                this.GrabImage();
+                int pos1 = (int)CvInvoke.cvGetCaptureProperty(this.capture, Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_POS_FRAMES);
+                this.GrabImage();
+                int pos2 = (int)CvInvoke.cvGetCaptureProperty(this.capture, Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_POS_FRAMES);
+                if (webCamIndex < 0 && (pos2 - pos1 != 1 || (int)CvInvoke.cvGetCaptureProperty(this.capture, Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_POS_FRAMES) < 0))
+                {
+                    throw new FileLoadException($"Not supported file");
+                }
+
+            }
+            else
+            {
+                throw new Exception($"Couldn't create capture. Not supported file or stream");
+            }
+
+            this.SetFramePos(0);
+
+            return true;
+        }
+
+        /// <summary>
+        /// Захватываем очередное изображение с нашего устройства захвата
+        /// throw NullReferenceException if couldn't grab
+        /// </summary>
+        public void GrabImage()
+        {
+            try
+            {
+                this.image.Ptr = CvInvoke.cvQueryFrame(this.capture);
+                if (this.image.Ptr == IntPtr.Zero)
+                {
+                    throw new NullReferenceException();
+                }
+            }
+            catch
+            {
+                throw new NullReferenceException();
+            }
+        }
+
+        /// <summary>
+        /// Задаем позицию в виде с которой будем захватывать в следующий раз
+        /// </summary>
+        /// <param name="pos">индекс кадра</param>
+        public void SetFramePos(int position)
+        {
+            if (this.WebCamIndex >= 0)
+            {
+                return;
+            }
+
+            if (position < 0 || this.Length < position)
+            {
+                throw new System.ArgumentOutOfRangeException();
+            }
+
+            double positiontoset = position;
+            double pos = positiontoset - 12;
+            if (pos < 0) pos = 0;
+            CvInvoke.cvSetCaptureProperty(this.capture, Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_POS_FRAMES, pos);
+            if (positiontoset == 0)
+            {
+                return;
+            }
+            while (pos < position)
+            {
+                GrabImage();
+                pos = CvInvoke.cvGetCaptureProperty(this.capture, Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_POS_FRAMES);
+                if (pos == position)
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Задаем позицию и захватываем с неё изображение
+        /// </summary>
+        /// <param name="pos">индекс кадра</param>
+        public void GrabImageByPos(int pos)
+        {
+            if (this.WebCamIndex >= 0)
+            {
+                return;
+            }
+
+            this.SetFramePos(pos);
+            this.GrabImage();
+        }
+
+        public void ReleaseCapture()
+        {
+            this.Release();
+            try
+            {
+                CvInvoke.cvReleaseCapture(ref this.capture);
+            }
+            catch { }
+        }
+
+        public void Release()
+        {
+            if (this.image != null)
+            {
+                this.Image.Ptr = IntPtr.Zero;
+            }
+        }
+    }
+}
+using Emgu.CV;
+using Emgu.CV.Structure;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _SSU_EyesOffice.Logic
+{
+    public class GrayBin
+    {
+        public static Image<Gray, Byte> ToGray(Image<Bgr, Byte> imgColor)
+        {
+            Image<Gray, Byte> grayImg = new Image<Gray, byte>(imgColor.Width, imgColor.Height);
+
+            CvInvoke.cvCvtColor(imgColor.Ptr, grayImg.Ptr, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_BGR2GRAY);
+
+            return grayImg;
+        }
+
+        public static Image<Gray, Byte> Binarize(Image<Gray, Byte> imgGray, int maxLevel, int minLevel = 0)
+        {
+            Image<Gray, Byte> binImg = new Image<Gray, byte>(imgGray.Width, imgGray.Height);
+            CvInvoke.cvInRangeS(imgGray, new MCvScalar(minLevel), new MCvScalar(maxLevel), binImg);
+            return binImg;
+        }
+
+        public static void BinarizeImmediate(Image<Gray, Byte> imgGray, int maxLevel, int minLevel = 0)
+        {
+            CvInvoke.cvInRangeS(imgGray, new MCvScalar(minLevel), new MCvScalar(maxLevel), imgGray);
+        }
+
+        public static void InvertInRegions(Image<Gray, Byte> imgBin, Rectangle roiLeft, Rectangle roiRight)
+        {
+            for (int y = 0; y < imgBin.Height; y++)
+            {
+                for (int x = 0; x < imgBin.Width; x++)
+                {
+                    if (roiLeft.Contains(x, y) || roiRight.Contains(x, y))
+                    {
+                        imgBin.Data[y, x, 0] = imgBin.Data[y, x, 0] > 0 ? (byte)0 : (byte)255;
+                    }
+                    else
+                    {
+                        imgBin.Data[y, x, 0] = 0;
+                    }
+                }
+            }
+        }
+
+        public static Image<Hsv, byte> ToHsv(Image<Bgr, Byte> imgColor)
+        {
+            var hsv_and = new Image<Hsv, byte>(imgColor.Size);
+            CvInvoke.cvCvtColor(imgColor, hsv_and, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_BGR2HSV);
+
+            return hsv_and;
+        }
+
+        public static Image<Gray, Byte>[] ToRgbChanels(Image<Bgr, Byte> imgColor)
+        {
+            Image<Gray, byte>[] chanels = imgColor.Split();
+            //chanels[0] = chanels[0].InRange(Rmin, Rmax);
+            //chanels[1] = chanels[1].InRange(Gmin, Gmax);
+            //chanels[2] = chanels[2].InRange(Bmin, Bmax);
+            //result = chanels[0].And(chanels[1]);
+            //result = result.And(chanels[2]);
+            //result = result.Dilate(dialate);
+            return chanels;
+        }
+
+        public static Image<Gray, Byte> And(List<Image<Gray, Byte>> images)
+        {
+            if (images.Count <= 0)
+            {
+                return null;
+            }
+
+            Image<Gray, Byte> result = images[0].Clone();
+            foreach (var item in images.Skip(1))
+            {
+                result = result.And(item);
+            }
+
+            return result;
+        }
+
+        public static void Smooth(Image<Gray, Byte> img, int level = 5)
+        {
+            CvInvoke.cvSmooth(img, img, Emgu.CV.CvEnum.SMOOTH_TYPE.CV_GAUSSIAN, level, 0, 0, 0);
+        }
+
+        public static void Normalize(Image<Gray, Byte> img, int levelMin = 0, int levelMax=255)
+        {
+            CvInvoke.cvNormalize(img, img, levelMin, levelMax, Emgu.CV.CvEnum.NORM_TYPE.CV_MINMAX, IntPtr.Zero);
+        }
+
+        
+    }
+}
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _SSU_EyesOffice.Logic
+{
+    public static class Logging
+    {
+        public static void Log(Exception ex, string message = "")
+        {
+            File.AppendAllText("logger.log", $"[{DateTime.Now}]: {message}{Environment.NewLine}###{Environment.NewLine}{ex.Message}{Environment.NewLine}###{Environment.NewLine}{ex.ToString()}{Environment.NewLine}{Environment.NewLine}############################################################################{Environment.NewLine}--------------{Environment.NewLine}############################################################################{Environment.NewLine}{Environment.NewLine}");
+        }
+    }
+}
+using System;
+using System.Collections.Generic;
+using System.Data.OleDb;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _SSU_EyesOffice.Logic
+{
+    public class Patient
+    {
+        private string secondName;
+
+        public Patient(int Id, string secondName, string name, DateTime birthDay, bool isFemale, string comments)
+        {
+            this.Id = Id;
+            this.SecondName = secondName;
+            this.Name = name;
+            this.BirthDate = birthDay;
+            this.IsFemale = isFemale;
+            this.Comments = comments;
+        }
+
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public string SecondName {
+            get
+            {
+                return this.secondName;
+            }
+
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentNullException();
+                }
+
+                this.secondName = value;
+            }
+        }
+
+        public DateTime BirthDate { get; set; }
+
+        public bool IsFemale  { get; set; }
+
+        public string Comments { get; set; }
+
+        public List<Record> Records {get; set;}
+
+        public void Delete()
+        {
+            foreach (var item in this.Records)
+            {
+                item.Delete();
+            }
+
+            try
+            {
+                DataBase.Instance.Connect();
+                OleDbCommand cmd = new OleDbCommand(
+                   @"DELETE FROM Patients WHERE ID = @Id", DataBase.Instance.conn);
+                cmd.Parameters.AddWithValue("@Id", this.Id);
+
+                if (cmd.ExecuteNonQuery() <= 0)
+                {
+                    throw new Exception("Record.DeletePatient null query");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                DataBase.Instance.Disconnect();
+            }
+        }
+
+        public static List<Patient> SelectAllFromDB()
+        {
+            OleDbCommand cmd = new OleDbCommand(@"
+                SELECT ID, c_second_name, c_name, c_is_female, c_birth_date, c_comments FROM patients
+                ORDER BY ID DESC", 
+                DataBase.Instance.conn);
+
+            var patients = new List<Patient>();
+            try
+            { 
+                DataBase.Instance.Connect();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        patients.Add(new Patient(
+                            (int) reader["ID"],
+                            reader["c_second_name"].ToString(),
+                            reader["c_name"].ToString(),
+                            (DateTime)reader["c_birth_date"],
+                            (bool)reader["c_is_female"],
+                            reader["c_comments"].ToString()));
+                    }
+                }
+
+                DataBase.Instance.Disconnect();
+            }
+            catch (Exception ex)
+            {
+                Logging.Log(ex, "Couldn't open connection Patient.SelectAllFromDB");
+            }
+
+            return patients;
+        }
+
+        public static Patient SelectByID(int id)
+        {
+            OleDbCommand cmd = new OleDbCommand(@"
+                SELECT ID, c_second_name, c_name, c_is_female, c_birth_date, c_comments FROM patients WHERE ID = @ID",
+                DataBase.Instance.conn);
+            cmd.Parameters.AddWithValue("@ID", id);
+
+            try
+            {
+                DataBase.Instance.Connect();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var patient = new Patient(
+                            (int)reader["ID"],
+                            reader["c_second_name"].ToString(),
+                            reader["c_name"].ToString(),
+                            (DateTime)reader["c_birth_date"],
+                            (bool)reader["c_is_female"],
+                            reader["c_comments"].ToString());
+                        DataBase.Instance.Disconnect();
+                        return patient;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Logging.Log(ex, "Couldn't open connection Patient.SelectAllFromDB");
+            }
+            finally
+            {
+                DataBase.Instance.Disconnect();
+            }
+
+            return null;
+        }
+
+        public static void UpdateToDB(int Id, string secondName, string name, bool isFemale, DateTime birthDay, string comments)
+        {
+            if (string.IsNullOrWhiteSpace(secondName))
+            {
+                throw new ArgumentException();
+            }
+
+            try
+            {
+                DataBase.Instance.Connect();
+                OleDbCommand cmd = new OleDbCommand(
+                    @"UPDATE patients SET 
+                    c_second_name = @SecondName,
+                    c_name = @Name,
+                    c_is_female = @IsFemale,
+                    c_birth_date = @birthDay,
+                    c_comments = @comments WHERE ID = @Id", DataBase.Instance.conn);
+                cmd.Parameters.AddWithValue("@SecondName", secondName);
+                cmd.Parameters.AddWithValue("@Name", name);
+                cmd.Parameters.AddWithValue("@IsFemale", isFemale);
+                cmd.Parameters.AddWithValue("@birthDay", birthDay);
+                cmd.Parameters.AddWithValue("@comments", comments);
+                cmd.Parameters.AddWithValue("@Id", Id);
+
+                if (cmd.ExecuteNonQuery() <= 0)
+                {
+                    throw new Exception("Patient.UpdateToDB");
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                DataBase.Instance.Disconnect();
+            }
+        }
+
+        public static void AddToDB(string secondName, string name, bool isFemale, DateTime birthDay, string comments)
+        {
+            if (string.IsNullOrWhiteSpace(secondName))
+            {
+                throw new ArgumentException();
+            }
+
+            try
+            {
+                DataBase.Instance.Connect();
+                OleDbCommand cmd = new OleDbCommand(
+                    @"INSERT INTO patients(c_second_name, c_name, c_is_female, c_birth_date, c_comments) 
+                    VALUES(@SecondName, @Name, @IsFemale, @birthDay, @comments)", DataBase.Instance.conn);
+                cmd.Parameters.AddWithValue("@SecondName", secondName);
+                cmd.Parameters.AddWithValue("@Name", name);
+                cmd.Parameters.AddWithValue("@IsFemale", isFemale);
+                cmd.Parameters.AddWithValue("@birthDay", birthDay);
+                cmd.Parameters.AddWithValue("@comments", comments);
+
+                if (cmd.ExecuteNonQuery() <= 0)
+                {
+                    throw new Exception("Patient.AddToDB null query");
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                DataBase.Instance.Disconnect();
+            }
+        }
+    }
+}
+using System;
+using System.Collections.Generic;
+using System.Data.OleDb;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _SSU_EyesOffice.Logic
+{
+    public struct DataStruct
+    {
+        public  PointF left;
+        public  PointF right;
+        public  int msecs;
+
+        public DataStruct(PointF left, PointF right, int msecs)
+        {
+            this.left = left;
+            this.right = right;
+            this.msecs = msecs;
+        }
+    }
+
+    public class Record
+    {
+        public static List<Record> SelectAllFromDB(int patientId)
+        {
+            OleDbCommand cmd = new OleDbCommand(@"
+                SELECT ID, patient_id, path, video_date, comments, reduce_factor, calib_factor FROM Records WHERE patient_id = @PatientId
+                ORDER BY ID DESC",
+                DataBase.Instance.conn);
+            cmd.Parameters.AddWithValue("@PatientId", patientId);
+            var records = new List<Record>();
+            try
+            {
+                DataBase.Instance.Connect();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        records.Add(new Record(
+                            (int)reader["ID"],
+                            (int)reader["patient_id"],
+                            reader["path"].ToString(),
+                            (DateTime)reader["video_date"],
+                            reader["comments"].ToString(),
+                            (int)reader["reduce_factor"],
+                            (double)reader["calib_factor"]));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logging.Log(ex, "Couldn't open connection Patient.SelectAllFromDB");
+            }
+            finally
+            {
+                DataBase.Instance.Disconnect();
+            }
+
+            return records;
+        }
+
+        public static void AddToDB(int patientId, string path, DateTime date, string comments = "0", int reduceFactor = 0, double calibFactor = 0)
+        {
+            try
+            {
+                DataBase.Instance.Connect();
+                OleDbCommand cmd = new OleDbCommand(
+                    @"INSERT INTO Records(patient_id, path, video_date, reduce_factor, calib_factor, comments) 
+                    VALUES(@PatientId, @Path, @DateT,@ReduceFactor, @CalibFactor, @Comments)", DataBase.Instance.conn);
+                cmd.Parameters.AddWithValue("@PatientId", patientId);
+                cmd.Parameters.AddWithValue("@Path", path);
+                cmd.Parameters.AddWithValue("@DateT", date.ToString("dd.MM.yyyy hh:mm:ss"));
+                cmd.Parameters.AddWithValue("@ReduceFactor", reduceFactor);
+                cmd.Parameters.AddWithValue("@CalibFactor", calibFactor);
+                cmd.Parameters.AddWithValue("@Comments", comments);
+
+                if (cmd.ExecuteNonQuery() <= 0)
+                {
+                    throw new Exception("Record.AddToDB null query");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                DataBase.Instance.Disconnect();
+            }
+        }
+
+        public List<DataStruct> data { get; set; } = new List<DataStruct>();
+        private List<DataStruct> backUp = null;
+
+        public Record(int id, int patient_id, string path, DateTime date, string comments = "", int reduce_factor = 0, double calib_factor = 0)
+        {
+            this.Id = id;
+            this.PatientId = patient_id;
+            this.Path = path;
+            this.Date = date;
+            this.ReduceFactor = reduce_factor;
+            this.CalibFactor = calib_factor;
+            this.Comments = comments;
+        }
+
+        public DataStruct this[int frameNumber]
+        {
+            get
+            {
+                if (frameNumber < 0 || frameNumber >= this.data.Count)
+                {
+                    throw new IndexOutOfRangeException();
+                }
+
+                return this.data[frameNumber];
+            }
+
+            set
+            {
+                if (frameNumber < 0 || frameNumber >= this.data.Count)
+                {
+                    throw new IndexOutOfRangeException();
+                }
+
+                this.data[frameNumber] = value;
+            }
+        }
+
+        public int Length
+        {
+            get
+            {
+                return this.data.Count;
+            }
+        }
+
+        public void Delete()
+        {
+            try
+            {
+                DataBase.Instance.Connect();
+                OleDbCommand cmd = new OleDbCommand(
+                   @"DELETE FROM Records WHERE ID = @Id", DataBase.Instance.conn);
+                cmd.Parameters.AddWithValue("@Id", this.Id);
+
+                if (cmd.ExecuteNonQuery() <= 0)
+                {
+                    throw new Exception("Record.DeleteRecord null query");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                DataBase.Instance.Disconnect();
+            }
+
+            try
+            {
+                File.Delete($"data//{this.Id}.dat");
+            }
+            catch
+            {
+
+            }
+        }
+
+        public int Id { get; private set; }
+
+        public int PatientId { get; private set; }
+
+        public string Path { get; set; }
+
+        public DateTime Date { get; private set; }
+
+        public int ReduceFactor { get; private set; }
+
+        public double CalibFactor { get; set; }
+
+        public string Comments { get; set; }
+
+        public void SetData(List<DataStruct> dat)
+        {
+            this.data = dat;
+        }
+
+        public PointF GetLeft(int frame)
+        {
+            try
+            {
+                return new PointF((float)(this.data[frame].left.X / this.CalibFactor), (float)(this.data[frame].left.Y / this.CalibFactor));
+            }
+            catch
+            {
+                return PointF.Empty;
+            }
+        }
+
+        public static float CenterLeftX(List<DataStruct> data)
+        {
+            if (data.Count <= 0)
+            {
+                return 0;
+            }
+
+            var min = data[0].left.X;
+            foreach (var item in data.Skip(1))
+            {
+                if (min > item.left.X && item.left.X > 0)
+                {
+                    min = item.left.X;
+                }
+            }
+
+
+            var max = data[0].left.X;
+            foreach (var item in data.Skip(1))
+            {
+                if (max < item.left.X)
+                {
+                    max = item.left.X;
+                }
+            }
+
+            return (max + min) / 2.0F;
+        }
+
+        public float CenterLeftX()
+        {
+            return Record.CenterLeftX(this.data);
+        }
+
+        public static float CenterRightX(List<DataStruct> data)
+        {
+            if (data.Count <= 0)
+            {
+                return 0;
+            }
+
+            var min = data[0].right.X;
+            foreach (var item in data.Skip(1))
+            {
+                if (min > item.right.X && item.right.X > 0)
+                {
+                    min = item.right.X;
+                }
+            }
+
+            var max = data[0].right.X;
+            foreach (var item in data.Skip(1))
+            {
+                if (max < item.right.X)
+                {
+                    max = item.right.X;
+                }
+            }
+
+            return (max + min) / 2.0F;
+        }
+
+        public float CenterRightX()
+        {
+            return Record.CenterRightX(this.data);
+        }
+
+        public static float CenterLeftY(List<DataStruct> data)
+        {
+            if (data.Count <= 0)
+            {
+                return 0;
+            }
+
+            var min = data[0].left.Y;
+            foreach (var item in data.Skip(1))
+            {
+                if (min > item.left.Y && item.left.Y > 0)
+                {
+                    min = item.left.Y;
+                }
+            }
+
+
+            var max = data[0].left.Y;
+            foreach (var item in data.Skip(1))
+            {
+                if (max < item.left.Y)
+                {
+                    max = item.left.Y;
+                }
+            }
+
+            return (max + min) / 2.0F;
+        }
+
+        public float CenterLeftY()
+        {
+            return Record.CenterLeftY(this.data);
+        }
+
+        public static float CenterRightY(List<DataStruct> data)
+        {
+            if (data.Count <= 0)
+            {
+                return 0;
+            }
+
+            var min = data[0].right.Y;
+            foreach (var item in data.Skip(1))
+            {
+                if (min > item.right.Y && item.right.Y > 0)
+                {
+                    min = item.right.Y;
+                }
+            }
+
+            var max = data[0].right.Y;
+            foreach (var item in data.Skip(1))
+            {
+                if (max < item.right.Y)
+                {
+                    max = item.right.Y;
+                }
+            }
+
+            return (max + min) / 2.0F;
+        }
+
+        public float CenterRightY()
+        {
+            return Record.CenterRightY(this.data);
+        }
+
+        public PointF GetRight(int frame)
+        {
+            try
+            {
+                return new PointF((float)(this.data[frame].right.X / this.CalibFactor), (float)(this.data[frame].right.Y / this.CalibFactor));
+            }
+            catch
+            {
+                return PointF.Empty;
+            }
+        }
+
+        public void SetLeft(int frame, PointF left)
+        {
+            var tmp = this.data[frame];
+            tmp.left = left;
+            this.data[frame] = tmp;
+        }
+
+        public void SetRight(int frame, PointF right)
+        {
+            var tmp = this.data[frame];
+            tmp.right = right;
+            this.data[frame] = tmp;
+        }
+
+        public void UpdateDB()
+        {
+            try
+            {
+                DataBase.Instance.Connect();
+                OleDbCommand cmd = new OleDbCommand(
+                    @"UPDATE Records SET 
+                        patient_id = @PatientId,
+                        path = @Path, 
+                        video_date = @DateT, 
+                        reduce_factor = @ReduceFactor, 
+                        calib_factor = @CalibFactor, 
+                        comments = @Comments
+                    WHERE ID = @Id", DataBase.Instance.conn);
+
+                cmd.Parameters.AddWithValue("@PatientId", this.PatientId);
+                cmd.Parameters.AddWithValue("@Path", this.Path);
+                cmd.Parameters.AddWithValue("@DateT", this.Date.ToString("dd.MM.yyyy hh:mm:ss"));
+                cmd.Parameters.AddWithValue("@ReduceFactor", this.ReduceFactor);
+                cmd.Parameters.AddWithValue("@CalibFactor", this.CalibFactor);
+                cmd.Parameters.AddWithValue("@Comments", this.Comments);
+                cmd.Parameters.AddWithValue("@Id", this.Id);
+
+                if (cmd.ExecuteNonQuery() <= 0)
+                {
+                    throw new Exception("Record.UpdateDB bad query");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                DataBase.Instance.Disconnect();
+            }
+        }
+
+        public void Save(String fileName = "")
+        {
+            if (!Directory.Exists("data"))
+            {
+                Directory.CreateDirectory("data");
+            }
+
+            using (StreamWriter sw = new StreamWriter(string.IsNullOrEmpty(fileName) ? $"data//{this.Id}.dat" : fileName))
+            {
+                foreach (var item in this.data)
+                {
+                    sw.WriteLine($"{item.msecs}\t{item.left.X}\t{item.left.Y}\t{item.right.X}\t{item.right.Y}");
+                }
+            }
+        }
+
+        public void Open()
+        {
+            this.data.Clear();
+            using (StreamReader sr = new StreamReader($"data//{this.Id}.dat"))
+            {
+                while (!sr.EndOfStream)
+                {
+                    var line = sr.ReadLine().Split('\t');
+                    this.data.Add(new DataStruct(
+                        new PointF(float.Parse(line[1]), float.Parse(line[2])),
+                        new PointF(float.Parse(line[3]), float.Parse(line[4])),
+                        int.Parse(line[0])
+                        ));
+                }
+            }
+        }
+
+        public void BackUp()
+        {
+            if (backUp == null)
+            {
+                throw new NullReferenceException();
+            }
+
+            data.Clear();
+            foreach (var item in this.backUp)
+            {
+                data.Add(item);
+            }
+
+            backUp = null;
+        }
+
+        public bool IsBackupEnabled {
+            get
+            {
+                return backUp != null;
+            }
+        }
+
+        public static int Interpolate(List<DataStruct> list, double vibrosFactor)
+        {
+            int cnt = 0;
+
+            float[] dxArr = new float[list.Count - 1];
+
+            for (int i = 0; i < list.Count - 1; i++)
+            {
+                dxArr[i] = Math.Abs(list[i + 1].left.X - list[i].left.X);
+            }
+
+            var mediane_dx = dxArr.Mediane(); // медиана изменения значений между соседними точками
+
+            for (int i = 0; i < list.Count - 1; i++)
+            {
+                PointF backL = PointF.Empty;
+                PointF backR = PointF.Empty;
+                bool isVibros = (Math.Abs(list[i + 1].left.X - list[i].left.X) > mediane_dx * vibrosFactor) || (Math.Abs(list[i + 1].right.X - list[i].right.X) > mediane_dx * vibrosFactor);
+
+                if (list[i].left.X == 0 || list[i].right.X == 0 || isVibros)
+                {
+                    if (i > 0)
+                    {
+                        backL = list[i - 1].left;
+                        backR = list[i - 1].right;
+                    }
+
+                    for (int j = i + 1; j < list.Count - 1; j++)
+                    {
+                        bool isVibros2 = (Math.Abs(list[j + 1].left.X - list[j].left.X) > mediane_dx * vibrosFactor) || (Math.Abs(list[j + 1].right.X - list[j].right.X) > mediane_dx * vibrosFactor);
+
+                        if (list[j].left.X != 0 && list[j].right.X != 0 && (vibrosFactor == 1 || !isVibros2))
+                        {
+                            for (int k = i; k < j; k++)
+                            {
+                                cnt++;
+                                PointF L, R;
+                                if (backL.X == 0)
+                                {
+                                    L = list[j].left;
+                                }
+                                else
+                                {
+                                    L = new PointF((float)(backL.X + list[j].left.X) / 2, (float)(backL.Y + list[j].left.Y) / 2);
+                                }
+
+                                if (backR.X == 0)
+                                {
+                                    R = list[j].right;
+                                }
+                                else
+                                {
+                                    R = new PointF((float)(backR.X + list[j].right.X) / 2, (float)(backR.Y + list[j].right.Y) / 2);
+                                }
+
+                                list[k] = new DataStruct(L, R, list[k].msecs);
+                            }
+
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return cnt;
+        }
+
+        public int Interpolate(double vibrosFactor = 1)
+        {
+            backUp = new List<DataStruct>();
+            backUp.Clear();
+            foreach (var item in this.data)
+            {
+                backUp.Add(item);
+            }
+
+            return Record.Interpolate(this.data, vibrosFactor);
+        }
+
+        public float GetFreq()
+        {
+            int cnt = 0;
+            var centerX = this.CenterLeftX();
+            for (int i = 1; i < this.data.Count; i++)
+            {
+                if ((this.data[i - 1].left.X - centerX) * (this.data[i].left.X - centerX) < 0)
+                {
+                    cnt++;
+                }
+            }
+
+            return (float)cnt / (float)(2 * (this.data[this.data.Count - 1].msecs / 1000));
+        }
+
+        public float GetMaxAmplitudeLeft()
+        {
+            float min = 0;
+            foreach (var item in data)
+            {
+                if ((min > item.left.X || min == 0))
+                {
+                    min = item.left.X;
+                }
+            }
+
+            float max = 0;
+            foreach (var item in data)
+            {
+                if ((max < item.left.X || max == 0))
+                {
+                    max = item.left.X;
+                }
+            }
+
+            return max - min;
+        }
+
+        public float GetMaxAmplitudeRight()
+        {
+            float min = 0;
+            foreach (var item in data)
+            {
+                if ((min > item.right.X || min == 0))
+                {
+                    min = item.right.X;
+                }
+            }
+
+            float max = 0;
+            foreach (var item in data)
+            {
+                if ((max < item.right.X || max == 0))
+                {
+                    max = item.right.X;
+                }
+            }
+
+            return max - min;
+        }
+
+        public float GetMaxPeakToPeak(List<float> peaks)
+        {
+            float min = -1000000;
+            float max = -1000000;
+            foreach (var item in peaks)
+            {
+               
+                if (min < Math.Abs(item) && item < 0)
+                {
+                    min = Math.Abs(item);
+                }
+
+                if (max < Math.Abs(item) && item > 0)
+                {
+                    max = Math.Abs(item);
+                }
+            }
+
+            return max + min;
+        }
+
+        public float GetMinPeakToPeak(List<float> peaks)
+        {
+            float min = 1000000;
+            float max = 1000000;
+            foreach (var item in peaks)
+            {
+
+                if (min > Math.Abs(item) && item < 0)
+                {
+                    min = Math.Abs(item);
+                }
+
+                if (max > Math.Abs(item) && item > 0)
+                {
+                    max = Math.Abs(item);
+                }
+            }
+
+            return max + min;
+        }
+
+        public float GetMeanAmplitude(List<float> peaks)
+        {
+           var peakMax = new List<float>();
+           var peakMin = new List<float>();
+
+            foreach (var item in peaks)
+            {
+                if (item > 0)
+                {
+                    peakMax.Add(item); 
+                }
+
+                if (item < 0)
+                {
+                    peakMin.Add(item);
+                }
+            }
+
+            if (peakMax.Count > peakMin.Count)
+            {
+                peakMax.RemoveRange(0, peakMax.Count - peakMin.Count);
+            }
+            else if (peakMax.Count < peakMin.Count)
+            {
+                peakMin.RemoveRange(0, peakMin.Count - peakMax.Count);
+            }
+
+            return (Math.Abs(peakMin.Sum()) + Math.Abs(peakMax.Sum())) / peakMin.Count;
+            
+        }
+
+        public List<float> PeaksLeft()
+        {
+            var arr = new List<float>();
+            float max = 0;
+            var center = CenterLeftX();
+            for (int i = 1; i < data.Count - 1; i++)
+            {
+                if ((data[i - 1].left.X - center) * (data[i].left.X - center) < 0)
+                {
+                    arr.Add(max - center);
+                    max = 0;
+                }
+                else
+                {
+                    if (data[i].left.X - center > 0)
+                    { // find max
+                        if ((max == 0) || max < data[i].left.X)
+                        {
+                            max = data[i].left.X;
+                        }
+                    }
+                    else
+                    {// min
+                        if ((max == 0) || max > data[i].left.X)
+                        {
+                            max = data[i].left.X;
+                        }
+                    }
+
+                }
+            }
+
+            arr.RemoveAt(0);
+            arr.RemoveAt(arr.Count - 1);
+
+            return arr;
+        }
+
+        public List<float> PeaksRight()
+        {
+            var arr = new List<float>();
+            float max = 0;
+            var center = CenterRightX();
+            for (int i = 1; i < data.Count - 1; i++)
+            {
+                if ((data[i - 1].right.X - center) * (data[i].right.X - center) < 0)
+                {
+                    arr.Add(max - center);
+                    max = 0;
+                }
+                else
+                {
+                    if (data[i].right .X - center > 0)
+                    { // find max
+                        if ((max == 0) || max < data[i].right.X)
+                        {
+                            max = data[i].right.X;
+                        }
+                    }
+                    else
+                    {// min
+                        if ((max == 0) || max > data[i].right.X)
+                        {
+                            max = data[i].right.X;
+                        }
+                    }
+
+                }
+            }
+
+            arr.RemoveAt(0);
+            arr.RemoveAt(arr.Count - 1);
+
+            return arr;
+        }
+
+    }
+}
+using Emgu.CV;
+using Emgu.CV.Structure;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _SSU_EyesOffice
+{
+    public static class Helper
+    {
+        public static Rectangle Reduce(this Rectangle rect, double factor)
+        {
+            return new Rectangle((int)(rect.X / factor), (int)(rect.Y / factor), (int)(rect.Width / factor), (int)(rect.Height / factor));
+        }
+
+        public static Image<Bgr, Byte> Reduce(this Image<Bgr, Byte> img, double reduceFactor)
+        {
+            var imageSmall = new Image<Bgr, byte>(new Size((int)(img.Width / reduceFactor), (int)(img.Height / reduceFactor)));
+            CvInvoke.cvResize(img.Ptr, imageSmall.Ptr, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
+            return imageSmall;
+        }
+
+        public static PointF Scale(this PointF pt, double factor)
+        {
+            return new PointF((float)(pt.X * factor), (float)(pt.Y * factor));
+        }
+
+        public static float Mediane(this float[] arr)
+        {
+            var list = arr.ToList();
+            list.Sort();
+            return list[list.Count / 2];
+        }
+    }
+}
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace _SSU_EyesOffice
+{
+    static class Program
+    {
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new FormMain());
+        }
+    }
+}
